@@ -51,6 +51,14 @@ public abstract class Usuario {
         return null;
     }
 
+    public String consultarMidia(int codigo){
+        Midia midia = Midia.procurarMidia(codigo);
+        if(midia == null){
+            return "Mídia não encontrada";
+        }
+        return midia.toString();
+    }
+
     protected int analizeDeMidiasEmprestadas(Midia midia){
         int qtd = 0;
 

@@ -40,10 +40,6 @@ public abstract class Funcionario extends Usuario {
 
     public abstract void removerUsuario(Usuario usuario);
 
-    public String consultarMidia(int codigo){
-        return "";
-    }
-
     public Funcionario(String nome, String usuario, String senha) {
         super(nome, usuario, senha);
     }
