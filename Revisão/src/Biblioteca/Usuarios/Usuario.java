@@ -51,6 +51,15 @@ public abstract class Usuario {
         return null;
     }
 
+    public static Usuario getUsuario(String username){
+        for(Usuario usuario : usuarios){
+            if(usuario.usuario.equals(username)){
+                return usuario;
+            }
+        }
+        return null;
+    }
+
     public String consultarMidia(int codigo){
         Midia midia = Midia.procurarMidia(codigo);
         if(midia == null){
@@ -74,6 +83,18 @@ public abstract class Usuario {
             }
         }
         return qtd;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "nome='" + nome + '\'' +
+                ", usuario='" + usuario + '\'' +
+                '}';
+    }
+
+    public ArrayList<Midia> getEmprestimos() {
+        return emprestimos;
     }
 
     protected abstract boolean adicionarEmprestimo(Midia midia);

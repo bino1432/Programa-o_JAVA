@@ -2,6 +2,8 @@ package Biblioteca.Usuarios;
 
 import Biblioteca.Midia;
 
+import java.awt.*;
+
 public abstract class Funcionario extends Usuario {
 
     private int matricula;
@@ -9,7 +11,7 @@ public abstract class Funcionario extends Usuario {
 
     public abstract void cadastrarUsuario(Usuario usuario);
 
-    public boolean emprestarMidia(Midia midia, Usuario usuario){
+    public static boolean emprestarMidia(Midia midia, Usuario usuario){
         if(!midia.isEmprestada()){
             if(usuario.adicionarEmprestimo(midia)){
                 midia.alterarEmprestimo();
@@ -19,7 +21,7 @@ public abstract class Funcionario extends Usuario {
         return false;
     }
 
-    public boolean devolverMidia(Midia midia, Usuario usuario){
+    public static boolean devolverMidia(Midia midia, Usuario usuario){
         if(usuario.emprestimos.contains(midia)){
             usuario.emprestimos.remove(midia);
             midia.alterarEmprestimo();
@@ -37,6 +39,20 @@ public abstract class Funcionario extends Usuario {
         }
         return false;
     }
+
+
+    @Override
+    public String toString() {
+        return super.toString()+
+                "Funcionario{" +
+                "matricula=" + matricula +
+                ", salario=" + salario +
+                '}';
+    }
+
+    public String verMidias(){
+      return Midia.getMidias().toString();
+    };
 
     public abstract void removerUsuario(Usuario usuario);
 
