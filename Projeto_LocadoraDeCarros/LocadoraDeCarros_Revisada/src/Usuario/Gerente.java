@@ -32,5 +32,21 @@ public class Gerente extends Funcionario{
         Veiculos.getVeiculo().add(veiculo);
     }
 
+    public static void cadastrarUsuario(String nome, String senha, String cpf, String cnh){
+        Usuario usuario = new Cliente(nome, senha, cpf, cnh);
+        getUsuarios().add(usuario);
+    }
 
+    public static void removerUsuario(String cpf){
+        for (Usuario usuario : getUsuarios()){
+            if(usuario.getCpf().equals(cpf)){
+                getUsuarios().remove(usuario);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Gerente{}";
+    }
 }

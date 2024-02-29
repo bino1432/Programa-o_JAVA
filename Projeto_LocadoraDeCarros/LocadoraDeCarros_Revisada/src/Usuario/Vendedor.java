@@ -14,4 +14,9 @@ public class Vendedor extends Funcionario {
     public static float consultarPagamento(){
         return Funcionario.verPagamento();
     }
+
+    @Override
+    public String toString() {
+        return "Vendedor{}";
+    }
 }

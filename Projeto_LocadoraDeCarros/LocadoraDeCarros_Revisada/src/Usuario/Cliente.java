@@ -8,4 +8,11 @@ public class Cliente extends Usuario{
         super(nome, cpf, senha);
         this.cnh = cnh;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "cnh='" + cnh + '\'' +
+                '}';
+    }
 }

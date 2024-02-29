@@ -14,7 +14,6 @@ public abstract class Usuario {
     private String nome;
     private static String cpf;
     private String senha;
-    //Faltou a Senha
 
     public Usuario(String nome, String cpf, String senha){
         this.nome = nome;

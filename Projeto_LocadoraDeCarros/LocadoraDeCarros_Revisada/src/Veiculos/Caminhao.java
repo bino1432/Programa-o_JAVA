@@ -13,4 +13,13 @@ public class Caminhao extends Veiculos{
         this.comprimento = comprimento;
         this.quantidadeDeRodas = quantidadeDeRodas;
     }
+
+    @Override
+    public String toString() {
+        return "Caminhao{" +
+                "pesoMaximo='" + pesoMaximo + '\'' +
+                ", comprimento=" + comprimento +
+                ", quantidadeDeRodas=" + quantidadeDeRodas +
+                '}';
+    }
 }
