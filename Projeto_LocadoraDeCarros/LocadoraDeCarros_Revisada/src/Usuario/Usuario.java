@@ -18,6 +18,7 @@ public abstract class Usuario {
     public Usuario(String nome, String cpf, String senha){
         this.nome = nome;
         this.cpf = cpf;
+        this.senha = senha;
     }
 
     public static String getCpf(){
