@@ -3,8 +3,7 @@ import Usuario.*;
 
 import java.util.Scanner;
 
-import static Usuario.Usuario.Login;
-import static Usuario.Usuario.getUsuarios;
+import static Usuario.Usuario.*;
 
 public class Main {
 
@@ -23,23 +22,78 @@ public class Main {
         Usuario logado = logar();
 
             System.out.println("""
-                       1 - ver meus veiculos
-                       2 - sdadsada
-                       3 - sadadasda
+                       1 - Ver meus veiculos
+                       2 - Ver meu perfil
                     """);
             if(logado instanceof Vendedor) {
                 System.out.println("""
-                        4 - asdasd
-                        5 - asdadasd
+                        3 - Vender veiculo
+                        4 - Consultar pagamento
+                        5 - Ver veiculos
                         """);
                 if (logado instanceof Gerente) {
                     System.out.println("""
-                            nossa tu é gerente
+                            6 - Cadastrar usuario
+                            7 - cadastrar veiculo
+                            8 - remover veiculo
+                            9 - remover usuario
                             """);
                 }
             }
 
+            int escolha = sc.nextInt();
+        switch (escolha){
+                case 1 -> verMeusVeiculos();
+                case 2 -> verPerfil(logado);
+            }
+        if(logado instanceof Vendedor){
+        switch (escolha){
+            case 3 -> venderVeiculo();
+            case 4 -> consultarPagamento();
+            case 5 -> verVeiculos();
+        }
+        }
+        if(logado instanceof Gerente){
+           switch (escolha){
+               case 6 -> cadastrarUsuario();
+               case 7 -> cadastrarVeiculo();
+               case 8 -> removerVeiculo();
+               case 9 -> removerUsuario();
+           }
+        }
+
+        private static String cadastrarUsuario() {
+            return "Usuario cadastrado";
+        }
+
+        private static String cadastrarVeiculo() {
+            return "Veiculo cadastrado";
+        }
+
+        private static String removerVeiculo() {
+            return "Veiculo Removido";
+        }
+
+        private static String removerUsuario() {
+            return "Usuario removido";
+        }
+
+        private static String verPerfil(Usuario cliente) {
+        return cliente.toString();
     }
+
+    private static String consultarPagamento() {
+        return "Pagamento";
+    }
+
+    private static String venderVeiculo() {
+        return "Veiculo Vendido";
+    }
+
+    private static String verMeusVeiculos() {
+        return "Veiculos";
+    }
+
     public static Usuario logar(){
 
         Scanner sc = new Scanner(System.in);
