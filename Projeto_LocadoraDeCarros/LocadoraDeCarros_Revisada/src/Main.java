@@ -1,5 +1,9 @@
 
 import Usuario.*;
+import Veiculos.Veiculos;
+import Veiculos.Carro;
+import Veiculos.Moto;
+import Veiculos.Caminhao;
 
 import java.util.Scanner;
 
@@ -38,34 +42,33 @@ public class Main {
             switch (escolha) {
                 case 0 -> System.exit(0);
                 case 1 -> logar();
-                case 2 -> Cadastrar();
-                case 3 -> verVeiculos();
-                case 4 -> verDetalheVeiculo();
+                case 2 -> verVeiculos();
+                case 3 -> verDetalheVeiculo();
             }
             if (logado instanceof Usuario) {
                 switch (escolha) {
-                    case 5 -> verMeusVeiculos();
+                    case 4 -> verMeusVeiculos();
                 }
             }
             if (logado instanceof Funcionario) {
                 switch (escolha) {
-                    case 6 -> venderVeiculo();
-                    case 7 -> procurarCliente();
-                    case 8 -> verPagamento();
+                    case 5 -> venderVeiculo();
+                    case 6 -> procurarCliente();
+                    case 7 -> verPagamento();
                 }
             }
             if (logado instanceof Gerente){
                 switch (escolha) {
-                    case 9 -> cadastrarVeiculo();
-                    case 10 -> removerVeiculo();
-                    case 11 -> editarVeiculo();
-                    case 12 -> cadastrarUsuario();
-                    case 13 -> removerUsuario();
-                    case 14 -> editarUsuario();
-                    case 15 -> verVendedores();
-                    case 16 -> verClientes();
-                    case 17 -> verPagamentoVendedor();
-                    case 18 -> verPagamentoUmVendedor();
+                    case 8 -> cadastrarVeiculo();
+                    case 9 -> removerVeiculo();
+                    case 10 -> editarVeiculo();
+                    case 11 -> cadastrarUsuario();
+                    case 12 -> removerUsuario();
+                    case 13 -> editarUsuario();
+                    case 14 -> verVendedores();
+                    case 15 -> verClientes();
+                    case 16 -> verPagamentoVendedor();
+                    case 17 -> verPagamentoUmVendedor();
                 }
             }
         }
@@ -98,25 +101,87 @@ public class Main {
     private static void removerVeiculo() {
     }
     private static void cadastrarVeiculo() {
+        Veiculos veiculoGenerico = null;
+
+        System.out.println("Qual o código do veiculo que deseja cadastrar?");
+        String codigo = sc.next();
+        System.out.println("Qual o preço do veiculo que deseja cadastrar?");
+        float preco = sc.nextFloat();
+        System.out.println("Qual a marca do veiculo que deseja cadastrar?");
+        String marca = sc.next();
+        System.out.println("Qual a placa do veiculo que deseja cadastrar?");
+        String placa = sc.next();
+        System.out.println("O veiculo que deseja cadastrar é novo?");
+        boolean novo = sc.nextBoolean();
+        System.out.println("Qual o status do veiculo que deseja cadastrar?");
+        String status = sc.next();
+        System.out.println("Qual a quilometragem do veiculo que deseja cadastrar?");
+        int quilometragem = sc.nextInt();
+        System.out.println("Qual o modelo do veiculo que deseja cadastrar?");
+        String modelo = sc.next();
+        System.out.println("Qual o ano do veiculo que deseja cadastrar?");
+        int ano = sc.nextInt();
+
+        System.out.println("""
+        Qual o tipo de veiculo que deseja cadastrar
+        1 - Carro
+        2 - Moto
+        3 - Caminhão
+        """);
+
+        int tipoDoVeiculo = sc.nextInt();
+
+        switch (tipoDoVeiculo){
+            case 1 -> veiculoGenerico = new Carro(codigo, preco, marca, placa, novo, status,
+                    quilometragem, modelo, ano);
+            case 2 -> veiculoGenerico = new Moto(codigo, preco, marca, placa, novo, status,
+                    quilometragem, modelo, ano);
+            case 3 -> {
+                System.out.println("Qual o peso maximo suportado?");
+                String pesoMaximo = sc.next();
+                System.out.println("Qual o Comprimento?");
+                int comprimento = sc.nextInt();
+                System.out.println("Qual a quantidade de rodas?");
+                int quantidadeDeRodas = sc.nextInt();
+
+                veiculoGenerico = new Caminhao(codigo, preco, marca, placa, novo, status,
+                quilometragem, modelo, ano, pesoMaximo, comprimento, quantidadeDeRodas);
+            }
+        }
     }
     
     private static void verPagamento() {
+        System.out.println("O seu pagamento é de: ");
+
+        Funcionario.verPagamento();
     }
 
     private static void procurarCliente() {
+        System.out.println("Qual o cpf do Cliente que deseja procurar?");
+        String cpf = sc.next();
+
+        Funcionario.procurarCliente(cpf);
     }
     private static void venderVeiculo() {
+
     }
 
     private static void verMeusVeiculos(){
+        for (Veiculos veiculo : logado.getVeiculos()){
+            veiculo.toString();
+        }
     }
     private static void verDetalheVeiculo() {
+        System.out.println("Qual o codigo do veiculo que deseja ver?");
+        String codigo = sc.next();
+
+        Veiculos.detalheVeiculo(codigo);
     }
 
     private static void verVeiculos() {
-    }
-
-    private static void Cadastrar() {
+        for (Veiculos veiculo : Veiculos.getVeiculo()){
+            veiculo.toString();
+        }
     }
 
     public static void logar(){
@@ -133,38 +198,37 @@ public class Main {
     public static void menuPadrao(){
         System.out.println("""
                 1 - Login
-                2 - Cadastrar
-                3 - Ver Veiculos
-                4 - Ver Detalhes de veiculo
+                2 - Ver Veiculos
+                3 - Ver Detalhes de veiculo
                 """);
     }
 
     public static void menuCliente(){
         System.out.println("""
-                5 - Ver meus Veiculos
+                4 - Ver meus Veiculos
                 """);
     }
 
     public static void menuFuncionario(){
         System.out.println("""
-                6 - Vender um Veiculo
-                7 - Procurar um Cliente
-                8 - Ver Pagamento   
+                5 - Vender um Veiculo
+                6 - Procurar um Cliente
+                7 - Ver Pagamento   
                 """);
     }
 
     public static void menuGerente(){
         System.out.println("""
-                9 - Cadastrar Veiculo
-                10 - Remover Veiculo
-                11 - Editar Veiculo
-                12 - Cadastrar Usuario
-                13 - Remover Usuario
-                14 - Editar Usuario
-                15 - Ver Vendedores
-                16 - Ver Clientes
-                17 - Ver Pagamento dos Vendedores
-                18 - Ver Pagamento de um Vendedor
+                8 - Cadastrar Veiculo
+                9 - Remover Veiculo
+                10 - Editar Veiculo
+                11 - Cadastrar Usuario
+                12 - Remover Usuario
+                13 - Editar Usuario
+                14 - Ver Vendedores
+                15 - Ver Clientes
+                16 - Ver Pagamento dos Vendedores
+                17 - Ver Pagamento de um Vendedor
                 """);
     }
 }

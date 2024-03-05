@@ -25,7 +25,7 @@ public abstract class Usuario {
         return cpf;
     }
 
-    public static List<Veiculos> getVeiculos(){
+    public List<Veiculos> getVeiculos(){
         return Collections.unmodifiableList(meusVeiculos);
     }
 

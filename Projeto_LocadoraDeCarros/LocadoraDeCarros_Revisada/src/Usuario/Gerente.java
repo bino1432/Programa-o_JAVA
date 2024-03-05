@@ -13,7 +13,7 @@ public class Gerente extends Funcionario{
     }
 
     public static void removerVeiculo(String codigo){
-        for(Veiculos veiculo : getVeiculos()){
+        for(Veiculos veiculo : Veiculos.getVeiculo()){
             if(veiculo.getCodigo().equals(codigo)){
                 Veiculos.getVeiculo().remove(veiculo);
             }

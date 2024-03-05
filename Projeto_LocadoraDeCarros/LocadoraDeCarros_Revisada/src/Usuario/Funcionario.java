@@ -14,10 +14,10 @@ public abstract class Funcionario extends Usuario {
         this.salario = salario;
     }
 
-    public static Usuario procurarCliente(String cpf){
-        for (Usuario usuario : getUsuarios()){
+    public static String procurarCliente(String cpf){
+        for (Usuario usuario : Usuario.getUsuarios()){
             if (usuario.getCpf().equals(cpf)){
-                return usuario;
+                return usuario.toString();
             }
         }
         return null;

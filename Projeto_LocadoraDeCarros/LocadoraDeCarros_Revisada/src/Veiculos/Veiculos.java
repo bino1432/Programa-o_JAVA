@@ -28,9 +28,11 @@ public abstract class Veiculos {
         return codigo;
     }
 
-    public static Veiculos mostrarVeiculos(){
+    public static Veiculos detalheVeiculo(String codigo){
         for (Veiculos veiculos : veiculo){
-            return veiculos;
+            if (veiculos.codigo.equals(codigo)){
+                return veiculos;
+            }
         }
         return null;
     }
