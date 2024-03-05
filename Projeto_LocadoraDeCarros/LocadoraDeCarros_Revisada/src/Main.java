@@ -88,17 +88,37 @@ public class Main {
     }
 
     private static void editarUsuario() {
+
     }
 
     private static void removerUsuario() {
+        System.out.println("Qual o cpf do usuario ue deseja remover?");
+        String cpf = sc.next();
+
+        Gerente.removerUsuario(cpf);
     }
     private static void cadastrarUsuario() {
+        System.out.println("Qual o nome do Usuario");
+        String nome = sc.next();
+        System.out.println("Qual a senha do Usuario");
+        String senha = sc.next();
+        System.out.println("Qual o cpf do Usuario");
+        String cpf = sc.next();
+        System.out.println("Qual o cnh do Usuario");
+        String cnh = sc.next();
+
+        Gerente.cadastrarUsuario(nome, senha, cpf, cnh);
     }
 
     private static void editarVeiculo() {
+
     }
 
     private static void removerVeiculo() {
+        System.out.println("Qual o código do veiculo que deseja remover?");
+        String codigo = sc.next();
+
+        Gerente.removerVeiculo(codigo);
     }
     private static void cadastrarVeiculo() {
         Veiculos veiculoGenerico = null;
@@ -148,6 +168,8 @@ public class Main {
                 quilometragem, modelo, ano, pesoMaximo, comprimento, quantidadeDeRodas);
             }
         }
+
+        Gerente.cadastrarVeiculo(veiculoGenerico);
     }
     
     private static void verPagamento() {
