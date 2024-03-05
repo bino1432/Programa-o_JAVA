@@ -34,9 +34,7 @@ public abstract class Usuario {
     }
 
     public static void addUsuario(Usuario usuario){
-        if (usuario instanceof Cliente){
             usuarios.add(usuario);
-        }
     }
 
     public static Usuario verUsuarios() {
