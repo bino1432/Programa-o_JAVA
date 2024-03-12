@@ -7,11 +7,6 @@ public class Gerente extends Funcionario{
         super(nome, cpf, senha, salario);
     }
 
-    @Override
-    public void venderVeiculo(String codigoVeiculo, String cpfCliente) {
-
-    }
-
     public static void removerVeiculo(String codigo){
         for(Veiculos veiculo : Veiculos.getVeiculo()){
             if(veiculo.getCodigo().equals(codigo)){

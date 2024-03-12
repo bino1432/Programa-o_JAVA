@@ -3,6 +3,8 @@ package Usuario;
 import Veiculos.Veiculos;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Funcionario extends Usuario {
 
@@ -27,6 +29,10 @@ public abstract class Funcionario extends Usuario {
         vendas.add(venda);
     }
 
+    public static List<Venda> getVendas(){
+        return Collections.unmodifiableList(vendas);
+    }
+
     public static float verPagamento(){
         return salario;
     }
@@ -39,5 +45,6 @@ public abstract class Funcionario extends Usuario {
         return null;
     }
 
-    public abstract void venderVeiculo(String codigoVeiculo, String cpfCliente);
+    public static void venderVeiculo(String codigoVeiculo, String cpfCliente) {
+    }
 }

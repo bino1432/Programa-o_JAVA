@@ -6,11 +6,6 @@ public class Vendedor extends Funcionario {
         super(nome, cpf, senha, salario);
     }
 
-    @Override
-    public void venderVeiculo(String codigoVeiculo, String cpfCliente) {
-
-    }
-
     public static float consultarPagamento(){
         return Funcionario.verPagamento();
     }

@@ -6,4 +6,9 @@ public class Venda {
     private String cpfCliente;
     private String codigo;
 
+    public Venda(String cpfVendedor, String cpfCliente, String codigo) {
+        this.cpfVendedor = cpfVendedor;
+        this.cpfCliente = cpfCliente;
+        this.codigo = codigo;
+    }
 }

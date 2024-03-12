@@ -5,6 +5,7 @@ import Veiculos.Carro;
 import Veiculos.Moto;
 import Veiculos.Caminhao;
 
+import java.io.StringReader;
 import java.util.Scanner;
 
 import static Usuario.Usuario.*;
@@ -76,15 +77,32 @@ public class Main {
     }
 
     private static void verPagamentoUmVendedor() {
+        System.out.println("Qual o cpf do vendedor?");
+        String cpf = sc.next();
+
+        for (Venda venda : Funcionario.getVendas()){
+            if(logado.getCpf().equals(cpf)){
+                venda.toString();
+            }
+        }
     }
 
     private static void verPagamentoVendedor() {
+        for (Venda venda : Funcionario.getVendas()){
+            venda.toString();
+        }
     }
 
     private static void verClientes() {
+        for (Usuario cliente : Usuario.getUsuarios()){
+            cliente.toString();
+        }
     }
 
     private static void verVendedores() {
+        for (Usuario vendedor : Usuario.getUsuarios()){
+            vendedor.toString();
+        }
     }
 
     private static void editarUsuario() {
@@ -111,7 +129,12 @@ public class Main {
     }
 
     private static void editarVeiculo() {
+        System.out.println("Qual o codigo do veiculo que deseja alterar:");
+        String codigo = sc.next();
+        System.out.println("Qual o novo preço do veiculo:");
+        float preco = sc.nextFloat();
 
+        Gerente.mudarPreco(codigo, preco);
     }
 
     private static void removerVeiculo() {
@@ -185,7 +208,22 @@ public class Main {
         Funcionario.procurarCliente(cpf);
     }
     private static void venderVeiculo() {
+        System.out.println("Qual o cpf do vendedor:");
+        String cpfVendedor = sc.next();
+        System.out.println("Qual o cpf do comprador:");
+        String cpfCliente = sc.next();
+        System.out.println("Qual o coidigo do veiculo vendido:");
+        String codigo = sc.next();
 
+        for(Veiculos veiculo : Veiculos.getVeiculo()){
+            if(veiculo.getCodigo().equals(veiculo)){
+                Funcionario.venderVeiculo(codigo, cpfCliente);
+                Veiculos.removeVeiculo(veiculo);
+
+                Venda venda = new Venda(cpfVendedor, cpfCliente, codigo);
+                Funcionario.addVenda(venda);
+            }
+        }
     }
 
     private static void verMeusVeiculos(){
@@ -214,7 +252,6 @@ public class Main {
         String senha = sc.next();
 
         logado = Usuario.Login(nome, senha);
-        System.out.println(logado);
     }
 
     public static void menuPadrao(){
