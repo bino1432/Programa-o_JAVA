@@ -7,6 +7,7 @@ import Veiculos.Caminhao;
 
 import java.io.StringReader;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 import static Usuario.Usuario.*;
 
@@ -16,7 +17,7 @@ public class Main {
     private static Gerente gerente = new Gerente("nicholas", "1525153", "789", 1000);
     private static Usuario logado = null;
     private static Scanner sc = new Scanner(System.in);
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Usuario.addUsuario(usuario);
         Usuario.addUsuario(gerente);
@@ -244,14 +245,18 @@ public class Main {
         }
     }
 
-    public static void logar(){
+    public static void logar() {
 
         System.out.println("Insira seu nome:");
         String nome = sc.next();
         System.out.println("insira a sua senha:");
         String senha = sc.next();
 
-        logado = Usuario.Login(nome, senha);
+        try {
+            logado = Usuario.Login(nome, senha);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     public static void menuPadrao(){
