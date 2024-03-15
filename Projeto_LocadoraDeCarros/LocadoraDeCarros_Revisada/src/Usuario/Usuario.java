@@ -57,6 +57,6 @@ public abstract class Usuario {
                 return user;
             }
         }
-        return null;
+        throw new RuntimeException("Falha no Login");
     }
 }
