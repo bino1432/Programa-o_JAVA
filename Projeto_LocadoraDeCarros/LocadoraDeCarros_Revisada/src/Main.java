@@ -255,7 +255,7 @@ public class Main {
         try {
             logado = Usuario.Login(nome, senha);
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            System.err.println(exception.getMessage());
         }
     }
 
