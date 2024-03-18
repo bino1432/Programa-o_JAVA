@@ -41,10 +41,28 @@ public class Main {
                 case 1 -> logar();
                 case 2 -> verVeiculos();
                 case 3 -> verDetalheVeiculo();
+                default -> {
+                    try {
+                        if (!(logado instanceof Usuario)) {
+                            opcaoInvalida();
+                        }
+                    } catch (OpcaoInvalidaException exception) {
+                        System.out.println(exception.getMessage());
+                    }
+                }
             }
             if (logado instanceof Usuario) {
                 switch (escolha) {
                     case 4 -> verMeusVeiculos();
+                    default -> {
+                        try {
+                            if (!(logado instanceof Funcionario)){
+                                acessoNegado();
+                            }
+                        } catch (AcessoNegadoException exception) {
+                            System.out.println(exception.getMessage());
+                        }
+                    }
                 }
             }
             if (logado instanceof Funcionario) {
@@ -52,6 +70,15 @@ public class Main {
                     case 5 -> venderVeiculo();
                     case 6 -> procurarCliente();
                     case 7 -> verPagamento();
+                    default -> {
+                        try {
+                            if (!(logado instanceof Gerente)){
+                                acessoNegado();
+                            }
+                        } catch (AcessoNegadoException exception) {
+                            System.out.println(exception.getMessage());
+                        }
+                    }
                 }
             }
             if (logado instanceof Gerente) {
@@ -66,6 +93,13 @@ public class Main {
                     case 15 -> verClientes();
                     case 16 -> verPagamentoVendedor();
                     case 17 -> verPagamentoUmVendedor();
+                    default -> {
+                        try {
+                            opcaoInvalida();
+                        } catch (OpcaoInvalidaException exception) {
+                            System.out.println(exception.getMessage());
+                        }
+                    }
                 }
             }
         }
