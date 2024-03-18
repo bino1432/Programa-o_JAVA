@@ -6,7 +6,7 @@ public class VeiculoNaoEncontradoException extends Exception{
     }
 
     public VeiculoNaoEncontradoException(String codigo) {
-        super("Veiculo com o código: " + codigo +  "não encontrado");
+        super("Veiculo com o código: " + codigo +  " não encontrado");
     }
 
 }
