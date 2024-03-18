@@ -3,14 +3,12 @@ package Usuario;
 import Exceptions.PrecoInvalidoException;
 import Exceptions.UsuarioExistenteException;
 import Exceptions.VeiculoExistenteException;
-import Interface.IFuncionario;
 import Veiculos.Veiculos;
 
 public class Gerente extends Funcionario {
     public Gerente(String nome, String cpf, String senha, float salario) {
         super(nome, cpf, senha, salario);
     }
-
     public static void removerVeiculo(String codigo){
         for(Veiculos veiculo : Veiculos.getVeiculo()){
             if(veiculo.getCodigo().equals(codigo)){
