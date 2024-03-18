@@ -1,15 +1,9 @@
 
+import Exceptions.*;
 import Usuario.*;
-import Veiculos.Veiculos;
-import Veiculos.Carro;
-import Veiculos.Moto;
-import Veiculos.Caminhao;
+import Veiculos.*;
 
-import java.io.StringReader;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
-
-import static Usuario.Usuario.*;
 
 public class Main {
     private static Cliente usuario = new Cliente("marcio", "345678", "123", "123");

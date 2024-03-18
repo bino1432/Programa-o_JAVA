@@ -1,5 +1,7 @@
 package Usuario;
 
+import Exceptions.SenhaIncorretaException;
+import Exceptions.UsuarioNaoEncotradoException;
 import Veiculos.Veiculos;
 
 import java.util.ArrayList;

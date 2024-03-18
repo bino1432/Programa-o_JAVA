@@ -1,4 +1,4 @@
-package Usuario;
+package Exceptions;
 
 public class UsuarioNaoEncotradoException extends Exception{
     public UsuarioNaoEncotradoException(String nome) {
