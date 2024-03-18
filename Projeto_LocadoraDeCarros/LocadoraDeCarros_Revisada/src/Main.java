@@ -7,17 +7,18 @@ import java.util.Scanner;
 
 public class Main {
     private static Cliente usuario = new Cliente("marcio", "345678", "123", "123");
-    private static Vendedor vendedor = new Vendedor("jean", "2638273", "456",1000);
+    private static Vendedor vendedor = new Vendedor("jean", "2638273", "456", 1000);
     private static Gerente gerente = new Gerente("nicholas", "1525153", "789", 1000);
     private static Usuario logado = null;
     private static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) throws Exception {
 
         Usuario.addUsuario(usuario);
         Usuario.addUsuario(gerente);
         Usuario.addUsuario(vendedor);
 
-        while (true){
+        while (true) {
             menuPadrao();
 
             if (logado instanceof Usuario) {
@@ -30,8 +31,8 @@ public class Main {
                 menuGerente();
             }
             System.out.println("""
-                0 - LogOut
-                """);
+                    0 - LogOut
+                    """);
 
             int escolha = sc.nextInt();
 
@@ -53,7 +54,7 @@ public class Main {
                     case 7 -> verPagamento();
                 }
             }
-            if (logado instanceof Gerente){
+            if (logado instanceof Gerente) {
                 switch (escolha) {
                     case 8 -> cadastrarVeiculo();
                     case 9 -> removerVeiculo();
@@ -71,32 +72,40 @@ public class Main {
 
     }
 
+    private static void opcaoInvalida() throws OpcaoInvalidaException{
+        throw new OpcaoInvalidaException();
+    }
+
+    private static void acessoNegado() throws AcessoNegadoException{
+        throw new AcessoNegadoException();
+    }
+
     private static void verPagamentoUmVendedor() {
         System.out.println("Qual o cpf do vendedor?");
         String cpf = sc.next();
 
-        for (Venda venda : Funcionario.getVendas()){
-            if(logado.getCpf().equals(cpf)){
+        for (Venda venda : Funcionario.getVendas()) {
+            if (logado.getCpf().equals(cpf)) {
                 venda.toString();
             }
         }
     }
 
     private static void verPagamentoVendedor() {
-        for (Venda venda : Funcionario.getVendas()){
+        for (Venda venda : Funcionario.getVendas()) {
             venda.toString();
         }
     }
 
     private static void verClientes() {
-        for (Usuario cliente : Usuario.getUsuarios()){
-            cliente.toString();
+        for (Usuario cliente : Usuario.getUsuarios()) {
+            System.out.println(cliente.toString());
         }
     }
 
     private static void verVendedores() {
-        for (Usuario vendedor : Usuario.getUsuarios()){
-            vendedor.toString();
+        for (Usuario vendedor : Usuario.getUsuarios()) {
+            System.out.println(vendedor.toString());
         }
     }
 
@@ -110,6 +119,7 @@ public class Main {
 
         Gerente.removerUsuario(cpf);
     }
+
     private static void cadastrarUsuario() {
         System.out.println("Qual o nome do Usuario");
         String nome = sc.next();
@@ -120,7 +130,20 @@ public class Main {
         System.out.println("Qual o cnh do Usuario");
         String cnh = sc.next();
 
-        Gerente.cadastrarUsuario(nome, senha, cpf, cnh);
+        try {
+            Gerente.cadastrarUsuario(nome, senha, cpf, cnh);
+        } catch (UsuarioExistenteException exception) {
+            System.out.println(exception.getMessage());
+            System.out.println("""
+                    Deseja tentar novamente?
+                    1 - Sim
+                    outro - Não
+                    """);
+            int escolha = sc.nextInt();
+            if (escolha == 1) {
+                cadastrarUsuario();
+            }
+        }
     }
 
     private static void editarVeiculo() {
@@ -138,6 +161,7 @@ public class Main {
 
         Gerente.removerVeiculo(codigo);
     }
+
     private static void cadastrarVeiculo() {
         Veiculos veiculoGenerico = null;
 
@@ -161,15 +185,15 @@ public class Main {
         int ano = sc.nextInt();
 
         System.out.println("""
-        Qual o tipo de veiculo que deseja cadastrar
-        1 - Carro
-        2 - Moto
-        3 - Caminhão
-        """);
+                Qual o tipo de veiculo que deseja cadastrar
+                1 - Carro
+                2 - Moto
+                3 - Caminhão
+                """);
 
         int tipoDoVeiculo = sc.nextInt();
 
-        switch (tipoDoVeiculo){
+        switch (tipoDoVeiculo) {
             case 1 -> veiculoGenerico = new Carro(codigo, preco, marca, placa, novo, status,
                     quilometragem, modelo, ano);
             case 2 -> veiculoGenerico = new Moto(codigo, preco, marca, placa, novo, status,
@@ -183,13 +207,38 @@ public class Main {
                 int quantidadeDeRodas = sc.nextInt();
 
                 veiculoGenerico = new Caminhao(codigo, preco, marca, placa, novo, status,
-                quilometragem, modelo, ano, pesoMaximo, comprimento, quantidadeDeRodas);
+                        quilometragem, modelo, ano, pesoMaximo, comprimento, quantidadeDeRodas);
             }
         }
 
-        Gerente.cadastrarVeiculo(veiculoGenerico);
+        try {
+            Gerente.cadastrarVeiculo(veiculoGenerico);
+        } catch (VeiculoExistenteException exception) {
+            System.out.println(exception.getMessage());
+            System.out.println("""
+                    Deseja tentar novamente?
+                    1 - Sim
+                    outro - Não
+                    """);
+            int escolha = sc.nextInt();
+            if (escolha == 1){
+                cadastrarVeiculo();
+            }
+
+        } catch (PrecoInvalidoException exception) {
+            System.out.println(exception.getMessage());
+            System.out.println("""
+                    Deseja tentar novamente?
+                    1 - Sim
+                    outro - Não
+                    """);
+            int escolha = sc.nextInt();
+            if (escolha == 1){
+                cadastrarVeiculo();
+            }
+        }
     }
-    
+
     private static void verPagamento() {
         System.out.println("O seu pagamento é de: ");
 
@@ -202,6 +251,7 @@ public class Main {
 
         Funcionario.procurarCliente(cpf);
     }
+
     private static void venderVeiculo() {
         System.out.println("Qual o cpf do vendedor:");
         String cpfVendedor = sc.next();
@@ -210,8 +260,8 @@ public class Main {
         System.out.println("Qual o coidigo do veiculo vendido:");
         String codigo = sc.next();
 
-        for(Veiculos veiculo : Veiculos.getVeiculo()){
-            if(veiculo.getCodigo().equals(veiculo)){
+        for (Veiculos veiculo : Veiculos.getVeiculo()) {
+            if (veiculo.getCodigo().equals(veiculo)) {
                 Funcionario.venderVeiculo(codigo, cpfCliente);
                 Veiculos.removeVeiculo(veiculo);
 
@@ -221,84 +271,98 @@ public class Main {
         }
     }
 
-    private static void verMeusVeiculos(){
-        for (Veiculos veiculo : logado.getVeiculos()){
+    private static void verMeusVeiculos() {
+        for (Veiculos veiculo : logado.getVeiculos()) {
             veiculo.toString();
         }
     }
+
     private static void verDetalheVeiculo() {
         System.out.println("Qual o codigo do veiculo que deseja ver?");
         String codigo = sc.next();
 
-        Veiculos.detalheVeiculo(codigo);
-    }
-
-    private static void verVeiculos() {
-        for (Veiculos veiculo : Veiculos.getVeiculo()){
-            veiculo.toString();
-        }
-    }
-
-    public static void logar() {
-
-        System.out.println("Insira seu nome:");
-        String nome = sc.next();
-        System.out.println("insira a sua senha:");
-        String senha = sc.next();
-
         try {
-            logado = Usuario.Login(nome, senha);
-        } catch (UsuarioNaoEncotradoException exception) {
+            Veiculos.detalheVeiculo(codigo);
+        } catch (VeiculoNaoEncontradoException exception) {
             System.out.println(exception.getMessage());
             System.out.println("""
-                    Deseja realizar o cadastro?
+                    Deseja tentar novamente?
                     1 - Sim
                     outro - Não
                     """);
-
             int escolha = sc.nextInt();
-            if (escolha == 1){
-                cadastrarUsuario();
+            if (escolha == 1) {
+                verDetalheVeiculo();
             }
-        } catch (SenhaIncorretaException exception) {
-            System.out.println(exception.getMessage());
         }
     }
 
-    public static void menuPadrao(){
-        System.out.println("""
-                1 - Login
-                2 - Ver Veiculos
-                3 - Ver Detalhes de veiculo
-                """);
-    }
+        private static void verVeiculos () {
+            for (Veiculos veiculo : Veiculos.getVeiculo()) {
+                System.out.println(veiculo.toString());
+            }
+        }
 
-    public static void menuCliente(){
-        System.out.println("""
-                4 - Ver meus Veiculos
-                """);
-    }
+        public static void logar () {
 
-    public static void menuFuncionario(){
-        System.out.println("""
-                5 - Vender um Veiculo
-                6 - Procurar um Cliente
-                7 - Ver Pagamento   
-                """);
-    }
+            System.out.println("Insira seu nome:");
+            String nome = sc.next();
+            System.out.println("insira a sua senha:");
+            String senha = sc.next();
 
-    public static void menuGerente(){
-        System.out.println("""
-                8 - Cadastrar Veiculo
-                9 - Remover Veiculo
-                10 - Editar Veiculo
-                11 - Cadastrar Usuario
-                12 - Remover Usuario
-                13 - Editar Usuario
-                14 - Ver Vendedores
-                15 - Ver Clientes
-                16 - Ver Pagamento dos Vendedores
-                17 - Ver Pagamento de um Vendedor
-                """);
+            try {
+                logado = Usuario.Login(nome, senha);
+            } catch (UsuarioNaoEncotradoException exception) {
+                System.out.println(exception.getMessage());
+                System.out.println("""
+                        Deseja realizar o cadastro?
+                        1 - Sim
+                        outro - Não
+                        """);
+
+                int escolha = sc.nextInt();
+                if (escolha == 1) {
+                    cadastrarUsuario();
+                }
+            } catch (SenhaIncorretaException exception) {
+                System.out.println(exception.getMessage());
+            }
+        }
+
+        public static void menuPadrao () {
+            System.out.println("""
+                    1 - Login
+                    2 - Ver Veiculos
+                    3 - Ver Detalhes de veiculo
+                    """);
+        }
+
+        public static void menuCliente () {
+            System.out.println("""
+                    4 - Ver meus Veiculos
+                    """);
+        }
+
+        public static void menuFuncionario () {
+            System.out.println("""
+                    5 - Vender um Veiculo
+                    6 - Procurar um Cliente
+                    7 - Ver Pagamento   
+                    """);
+        }
+
+        public static void menuGerente () {
+            System.out.println("""
+                    8 - Cadastrar Veiculo
+                    9 - Remover Veiculo
+                    10 - Editar Veiculo
+                    11 - Cadastrar Usuario
+                    12 - Remover Usuario
+                    13 - Editar Usuario
+                    14 - Ver Vendedores
+                    15 - Ver Clientes
+                    16 - Ver Pagamento dos Vendedores
+                    17 - Ver Pagamento de um Vendedor
+                    """);
     }
 }

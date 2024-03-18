@@ -1,5 +1,7 @@
 package Veiculos;
 
+import Exceptions.VeiculoNaoEncontradoException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,13 +30,17 @@ public abstract class Veiculos {
         return codigo;
     }
 
-    public static Veiculos detalheVeiculo(String codigo){
+    public float getPreco(){
+        return preco;
+    }
+
+    public static Veiculos detalheVeiculo(String codigo) throws VeiculoNaoEncontradoException {
         for (Veiculos veiculos : veiculo){
-            if (veiculos.codigo.equals(codigo)){
+            if (veiculos.codigo.equals(codigo)) {
                 return veiculos;
             }
         }
-        return null;
+        throw new VeiculoNaoEncontradoException(codigo);
     }
 
     public static ArrayList<Veiculos> addVeiculo(Veiculos veiculos){
