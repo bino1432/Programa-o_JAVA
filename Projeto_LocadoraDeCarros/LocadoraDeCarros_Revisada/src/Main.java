@@ -254,8 +254,20 @@ public class Main {
 
         try {
             logado = Usuario.Login(nome, senha);
-        } catch (Exception exception) {
-            System.err.println(exception.getMessage());
+        } catch (UsuarioNaoEncotradoException exception) {
+            System.out.println(exception.getMessage());
+            System.out.println("""
+                    Deseja realizar o cadastro?
+                    1 - Sim
+                    outro - Não
+                    """);
+
+            int escolha = sc.nextInt();
+            if (escolha == 1){
+                cadastrarUsuario();
+            }
+        } catch (SenhaIncorretaException exception) {
+            System.out.println(exception.getMessage());
         }
     }
 

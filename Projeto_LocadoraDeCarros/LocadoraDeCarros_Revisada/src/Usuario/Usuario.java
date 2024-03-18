@@ -51,7 +51,9 @@ public abstract class Usuario {
         return null;
     }
 
-    public static Usuario Login(String nome, String senha) throws Exception {
+    public static Usuario Login(String nome, String senha)
+            throws SenhaIncorretaException,
+            UsuarioNaoEncotradoException {
         for(Usuario user : usuarios){
             if (user.nome.equals(nome)){
                 if (user.senha.equals(senha)){
@@ -60,6 +62,6 @@ public abstract class Usuario {
                 throw new SenhaIncorretaException();
             }
         }
-        throw new UsuarioNaoEncotradoException();
+        throw new UsuarioNaoEncotradoException(nome);
     }
 }

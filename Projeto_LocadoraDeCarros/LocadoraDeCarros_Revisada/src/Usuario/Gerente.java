@@ -29,7 +29,7 @@ public class Gerente extends Funcionario{
 
     public static void cadastrarUsuario(String nome, String senha, String cpf, String cnh){
         Usuario usuario = new Cliente(nome, senha, cpf, cnh);
-        Usuario.getUsuarios().add(usuario);
+        Usuario.addUsuario(usuario);
     }
 
     public static void removerUsuario(String cpf){
