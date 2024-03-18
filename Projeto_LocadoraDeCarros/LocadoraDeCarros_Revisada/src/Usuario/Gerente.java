@@ -19,7 +19,12 @@ public class Gerente extends Funcionario{
         }
     }
 
-    public static void mudarPreco(String codigo, float preco){
+    public static void mudarPreco(String codigo, float preco) throws PrecoInvalidoException{
+
+        if (preco <= 0){
+            throw new PrecoInvalidoException();
+        }
+
         for(Veiculos veiculo : Veiculos.getVeiculo()){
             if(veiculo.getCodigo().equals(codigo)){
                 Veiculos.setPreco(preco);

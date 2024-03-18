@@ -152,7 +152,11 @@ public class Main {
         System.out.println("Qual o novo preço do veiculo:");
         float preco = sc.nextFloat();
 
-        Gerente.mudarPreco(codigo, preco);
+        try {
+            Gerente.mudarPreco(codigo, preco);
+        } catch (PrecoInvalidoException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     private static void removerVeiculo() {
