@@ -1,12 +1,12 @@
 package Usuario;
 
-import Exceptions.OpcaoInvalidaException;
 import Exceptions.PrecoInvalidoException;
 import Exceptions.UsuarioExistenteException;
 import Exceptions.VeiculoExistenteException;
+import Interface.IFuncionario;
 import Veiculos.Veiculos;
 
-public class Gerente extends Funcionario{
+public class Gerente extends Funcionario {
     public Gerente(String nome, String cpf, String senha, float salario) {
         super(nome, cpf, senha, salario);
     }
