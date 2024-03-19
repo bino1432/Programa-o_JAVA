@@ -1,16 +1,22 @@
 package net.weg.TopCar.model.usuario;
 
-import net.weg.TopCar.model.exceptions.PrecoInvalidoException;
-import net.weg.TopCar.model.exceptions.UsuarioExistenteException;
-import net.weg.TopCar.model.exceptions.VeiculoExistenteException;
-import net.weg.TopCar.model.Usuario;
+import net.weg.TopCar.dao.IBanco;
+import net.weg.TopCar.model.exceptions.*;
 import net.weg.TopCar.model.Veiculos;
 
-public class Gerente extends Funcionario {
-    public Gerente(String nome, String cpf, String senha, double salario) {
+import java.util.List;
+
+public class Gerente extends Vendedor implements IGerente {
+    public Gerente(String nome, Long cpf, String senha, double salario) {
         super(nome, cpf, senha, salario);
     }
-    public static void removerVeiculo(String codigo){
+
+    @Override
+    public void alterarPreco(String codigo, float novoPreco) throws PrecoInvalidoException {
+
+    }
+
+    public static void removerVeiculo(Long codigo){
         for(Veiculos veiculo : Veiculos.getVeiculo()){
             if(veiculo.getCodigo().equals(codigo)){
                 Veiculos.getVeiculo().remove(veiculo);
@@ -31,7 +37,7 @@ public class Gerente extends Funcionario {
         }
     }
 
-    public static void cadastrarVeiculo(Veiculos veiculo)
+    public void cadastrarVeiculo(Veiculos veiculo)
             throws VeiculoExistenteException,
             PrecoInvalidoException {
 
@@ -47,19 +53,34 @@ public class Gerente extends Funcionario {
         Veiculos.addVeiculo(veiculo);
     }
 
-    public static void cadastrarUsuario(String nome, String senha, String cpf, String cnh)
+    @Override
+    public float verPagamentos() {
+        return 0;
+    }
+
+    @Override
+    public String removerUsuario(String cpf) {
+        return null;
+    }
+
+    @Override
+    public String removerVeiculo(String codigo) {
+        return null;
+    }
+
+    public static void cadastrarUsuario(String nome, String senha, Long cpf, String cnh)
             throws UsuarioExistenteException{
-        for (Usuario usuarioExistente : getUsuarios()){
+        for (Cliente usuarioExistente : getUsuarios()){
             if (usuarioExistente.getCpf().equals(cpf)){
                 throw new UsuarioExistenteException(nome);
             }
         }
-        Usuario usuario = new Cliente(nome, senha, cpf, cnh);
-        Usuario.addUsuario(usuario);
+        Cliente usuario = new Cliente(nome, cpf, senha);
+        Cliente.addUsuario(usuario);
     }
 
-    public static void removerUsuario(String cpf){
-        for (Usuario usuario : getUsuarios()){
+    public static void removerUsuario(Long cpf){
+        for (Cliente usuario : getUsuarios()){
             if(usuario.getCpf().equals(cpf)){
                 getUsuarios().remove(usuario);
             }
@@ -67,14 +88,39 @@ public class Gerente extends Funcionario {
     }
 
     @Override
-    public String toString() {
-        return "Gerente{}";
+    public Float verPagamentoDeUmVendedor(String cpf) {
+        return null;
     }
 
-    public void editarUsuario(Usuario novoUsuario) {
-        Usuario usuario =
-                Usuario.procurarUsuario(
-                        novoUsuario.getCpf());
-        usuario.alterarUsuario(novoUsuario);
+    @Override
+    public void cadastrarUsuario(Cliente usuario) {
+
+    }
+
+    @Override
+    public String editarUmUsuario(Long cpf, Cliente usuario, IBanco<Cliente, Long> banco)
+            throws UsuarioNaoEncontradoException {
+            banco.alterar(cpf, usuario);
+            return "Usuario editado";
+    }
+
+    @Override
+    public void editarVeiculo(Veiculos novoVeiculo,IBanco<Veiculos, Long> banco) {
+
+    }
+
+    @Override
+    public List<Vendedor> verVendedores() {
+        return null;
+    }
+
+    @Override
+    public List<Cliente> verClientes() {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Gerente{}";
     }
 }

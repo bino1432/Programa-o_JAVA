@@ -1,6 +1,6 @@
 package net.weg.TopCar.dao;
 
-import net.weg.TopCar.model.exceptions.UsuarioNaoEncotradoException;
+import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
 import net.weg.TopCar.model.Veiculos;
 
 import java.util.*;
@@ -14,13 +14,13 @@ public class BancoVeiculos implements IBanco<Veiculos, String> {
         }
 
         public Veiculos buscarUm(String codigo)
-            throws UsuarioNaoEncotradoException {
+            throws UsuarioNaoEncontradoException {
             for (Veiculos automovel : listaAutomoveis) {
                 if (automovel.getCodigo().equals(codigo)) {
                     return automovel;
                 }
             }
-            throw new UsuarioNaoEncotradoException(codigo);
+            throw new UsuarioNaoEncontradoException(codigo);
         }
 
         public void adicionar(Veiculos automovel) {
@@ -28,14 +28,14 @@ public class BancoVeiculos implements IBanco<Veiculos, String> {
         }
 
         public void remover(String codigo)
-            throws UsuarioNaoEncotradoException {
+            throws UsuarioNaoEncontradoException {
             Veiculos automovel = buscarUm(codigo);
             listaAutomoveis.remove(automovel);
         }
 
         public void alterar(String cpf,
                             Veiculos novoUsuario)
-            throws UsuarioNaoEncotradoException {
+            throws UsuarioNaoEncontradoException {
             Veiculos automovel = buscarUm(cpf);
             listaAutomoveis.set(
                     listaAutomoveis.indexOf(automovel),

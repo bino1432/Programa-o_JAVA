@@ -1,13 +1,34 @@
 package net.weg.TopCar.model.usuario;
 
-public class Vendedor extends Funcionario {
+import net.weg.TopCar.dao.IBanco;
+import net.weg.TopCar.model.Veiculos;
+import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
 
-    public Vendedor(String nome, String cpf, String senha, Double salario) {
-        super(nome, cpf, senha, salario);
+public class Vendedor extends Cliente implements IVendedor{
+
+    private static Double salario;
+
+    public Vendedor(String nome, Long cpf, String senha, Double salario) {
+        super(nome, cpf, senha);
+        this.salario = salario;
     }
 
-    public static Double consultarPagamento(){
-        return Funcionario.verPagamento();
+    public Double consultarPagamento(){
+        return verPagamento();
+    }
+
+    @Override
+    public void vender(Veiculos veiculo, Cliente usuario) {
+
+    }
+
+    @Override
+    public Cliente buscarUsuario(Long cpf, IBanco<Cliente, Long> banco) throws UsuarioNaoEncontradoException {
+        return banco.buscarUm(cpf);
+    }
+
+    public Double verPagamento(){
+        return salario;
     }
 
     @Override

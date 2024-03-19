@@ -1,16 +1,15 @@
 package net.weg.TopCar.model.usuario;
 
 import net.weg.TopCar.model.exceptions.SenhaIncorretaException;
-import net.weg.TopCar.model.exceptions.UsuarioNaoEncotradoException;
+import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
 import net.weg.TopCar.dao.BancoUsuario;
-import net.weg.TopCar.model.Usuario;
 
 public class LoginUsuario {
-    private Usuario usuario;
+    private Cliente usuario;
     private BancoUsuario bancoUsuario;
 
-    public Usuario login(String cpf, String senha)
-            throws UsuarioNaoEncotradoException,
+    public Cliente login(String cpf, String senha)
+            throws UsuarioNaoEncontradoException,
             SenhaIncorretaException {
         this.usuario = bancoUsuario.procurarUsuario(cpf);
         validarSenha(senha);
