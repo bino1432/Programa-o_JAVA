@@ -2,11 +2,11 @@ package Usuario;
 
 public class Vendedor extends Funcionario {
 
-    public Vendedor(String nome, String cpf, String senha, float salario) {
+    public Vendedor(String nome, String cpf, String senha, Double salario) {
         super(nome, cpf, senha, salario);
     }
 
-    public static float consultarPagamento(){
+    public static Double consultarPagamento(){
         return Funcionario.verPagamento();
     }
 

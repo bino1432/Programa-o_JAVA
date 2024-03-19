@@ -1,7 +1,11 @@
 package Interface;
 
-public interface IFuncionario {
+import Veiculos.Veiculos;
+import Usuario.Usuario;
 
-    void DeletarUsuario();
+public interface IFuncionario extends IUsuario {
 
+    void vender(Veiculos veiculo, Usuario usuario);
+    Usuario buscarUsuario(String cpf);
+    String verPagamento();
 }

@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class Main {
     private static Cliente usuario = new Cliente("marcio", "345678", "123", "123");
-    private static Vendedor vendedor = new Vendedor("jean", "2638273", "456", 1000);
-    private static Gerente gerente = new Gerente("nicholas", "1525153", "789", 1000);
+    private static Vendedor vendedor = new Vendedor("jean", "2638273", "456", 1000.0);
+    private static Gerente gerente = new Gerente("nicholas", "1525153", "789", 1000.0);
     private static Usuario logado = null;
     private static Scanner sc = new Scanner(System.in);
 
@@ -144,7 +144,60 @@ public class Main {
     }
 
     private static void editarUsuario() {
+        String nome, senha;
 
+
+        System.out.println("CPF do usuário que deseja editar: ");
+        String cpf = sc.nextLine();
+
+        Usuario usuario = Usuario.procurarUsuario(cpf);
+
+        if (usuario == null) {
+            System.out.println("Usuário não encontrado!");
+        } else if (usuario instanceof Gerente) {
+            System.out.println("O usuário pesquisado é um gerente! Impossível fazer a remoção!");
+        } else {
+            System.out.println("Caso não deseje mudar um valor, apenas passe sem digitar nada!");
+
+            System.out.print("Nome: ");
+            nome = sc.nextLine();
+
+            if (nome == "") {
+                nome = usuario.getNome();
+            }
+
+            System.out.print("Senha: ");
+            senha = sc.nextLine();
+
+            if (senha == "") {
+                senha = usuario.getSenha();
+            }
+
+            if (logado instanceof Gerente gerente) {
+                Usuario novoUsuario;
+                if (usuario instanceof Vendedor vendedor) {
+                    Double salario;
+
+                    System.out.print("Salário: ");
+                    salario = Double.parseDouble(sc.nextLine());
+
+                    if (salario == null) {
+                        salario = vendedor.getSalario();
+                    }
+
+                    novoUsuario = new Vendedor(nome, usuario.getCpf(), senha, salario);
+                    gerente.editarUsuario(novoUsuario);
+                } else {
+                    String cnh;
+
+                    System.out.print("cnh: ");
+                    cnh = sc.next();
+
+                    novoUsuario = new Cliente(nome, usuario.getCpf(), senha, cnh);
+                    gerente.editarUsuario(novoUsuario);
+                }
+            }
+        }
     }
 
     private static void removerUsuario() {

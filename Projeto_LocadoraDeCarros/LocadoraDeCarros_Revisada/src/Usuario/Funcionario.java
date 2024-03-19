@@ -9,9 +9,9 @@ import java.util.List;
 public abstract class Funcionario extends Usuario {
 
     private static ArrayList<Venda> vendas = new ArrayList<>();
-    private static float salario;
+    private static Double salario;
 
-    public Funcionario(String nome, String cpf, String senha, float salario) {
+    public Funcionario(String nome, String cpf, String senha, Double salario) {
         super(nome, cpf, senha);
         this.salario = salario;
     }
@@ -33,7 +33,7 @@ public abstract class Funcionario extends Usuario {
         return Collections.unmodifiableList(vendas);
     }
 
-    public static float verPagamento(){
+    public static Double verPagamento(){
         return salario;
     }
 
@@ -46,5 +46,9 @@ public abstract class Funcionario extends Usuario {
     }
 
     public static void venderVeiculo(String codigoVeiculo, String cpfCliente) {
+    }
+
+    public Double getSalario() {
+        return salario;
     }
 }

@@ -2,26 +2,28 @@ package Usuario;
 
 import Exceptions.SenhaIncorretaException;
 import Exceptions.UsuarioNaoEncotradoException;
-;
 
 public class LoginUsuario {
-
-    private String cpf;
-    private String senha;
     private Usuario usuario;
+    private BancoUsuario bancoUsuario;
 
-    public Usuario login(BancoUsuario bancoUsuario)
+    public Usuario login(String cpf, String senha)
             throws UsuarioNaoEncotradoException,
             SenhaIncorretaException {
-        usuario = bancoUsuario.procurarUsuario(cpf);
-        validarSenha();
-            return usuario;
+        this.usuario = bancoUsuario.procurarUsuario(cpf);
+        validarSenha(senha);
+        return this.usuario;
     }
 
-    private boolean validarSenha(){
-        if (usuario.getSenha().equals(senha)){
-            return true;
+    public LoginUsuario(BancoUsuario bancoUsuario) {
+        this.bancoUsuario = bancoUsuario;
+    }
+
+    private void validarSenha(String senha) throws SenhaIncorretaException {
+        if (!this.usuario.getSenha().equals(senha)) {
+            return;
+        }else {
+            throw new SenhaIncorretaException();
         }
-        throw new SenhaIncorretaException();
     }
 }

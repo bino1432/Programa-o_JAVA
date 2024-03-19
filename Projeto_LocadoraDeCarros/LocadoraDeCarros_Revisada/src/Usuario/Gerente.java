@@ -6,7 +6,7 @@ import Exceptions.VeiculoExistenteException;
 import Veiculos.Veiculos;
 
 public class Gerente extends Funcionario {
-    public Gerente(String nome, String cpf, String senha, float salario) {
+    public Gerente(String nome, String cpf, String senha, double salario) {
         super(nome, cpf, senha, salario);
     }
     public static void removerVeiculo(String codigo){
@@ -68,5 +68,12 @@ public class Gerente extends Funcionario {
     @Override
     public String toString() {
         return "Gerente{}";
+    }
+
+    public void editarUsuario(Usuario novoUsuario) {
+        Usuario usuario =
+                Usuario.procurarUsuario(
+                        novoUsuario.getCpf());
+        usuario.alterarUsuario(novoUsuario);
     }
 }

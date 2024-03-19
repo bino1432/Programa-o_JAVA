@@ -27,6 +27,15 @@ public abstract class Usuario {
         return cpf;
     }
 
+    public static Usuario procurarUsuario(String cpf) {
+        for (Usuario user : usuarios) {
+            if (user.cpf.equals(cpf)){
+                return user;
+            }
+        }
+        return null;
+    }
+
     public List<Veiculos> getVeiculos(){
         return Collections.unmodifiableList(meusVeiculos);
     }
@@ -69,5 +78,13 @@ public abstract class Usuario {
 
     public String getSenha() {
         return senha;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void alterarUsuario(Usuario novoUsuario) {
+
     }
 }
