@@ -1,10 +1,12 @@
 package net.weg.TopCar.view;
 
-public class EntradaInteiro extends Entrada<Integer>{
+import java.util.InputMismatchException;
+
+public class EntradaInteiro extends Entrada<Long>{
 
     @Override
-    public Integer leia(){
-        return sc.nextInt();
+    public Long leia() throws InputMismatchException {
+        return sc.nextLong();
     }
 
 }
