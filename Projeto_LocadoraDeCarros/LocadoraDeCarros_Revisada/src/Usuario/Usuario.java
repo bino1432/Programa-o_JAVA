@@ -66,4 +66,8 @@ public abstract class Usuario {
         }
         throw new UsuarioNaoEncotradoException(nome);
     }
+
+    public String getSenha() {
+        return senha;
+    }
 }
