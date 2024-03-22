@@ -1,9 +1,13 @@
 package net.weg.TopCar.model.usuario;
 
 import net.weg.TopCar.dao.IBanco;
-import net.weg.TopCar.model.exceptions.*;
-import net.weg.TopCar.model.Veiculos;
+import net.weg.TopCar.model.veiculos.Veiculos;
+import net.weg.TopCar.model.exceptions.PrecoInvalidoException;
+import net.weg.TopCar.model.exceptions.UsuarioExistenteException;
+import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
+import net.weg.TopCar.model.exceptions.VeiculoExistenteException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Gerente extends Vendedor implements IGerente {
@@ -88,12 +92,10 @@ public class Gerente extends Vendedor implements IGerente {
     }
 
     @Override
-    public Float verPagamentoDeUmVendedor(String cpf) {
-        return null;
-    }
-
-    @Override
-    public void cadastrarUsuario(Cliente usuario) {
+    public void cadastrarUsuario(Cliente usuario, IBanco<Cliente, String> banco) {
+        if (!(usuario instanceof Gerente)){
+            banco.adicionar(usuario);
+        }
 
     }
 
@@ -126,12 +128,21 @@ public class Gerente extends Vendedor implements IGerente {
 
     @Override
     public List<Vendedor> verVendedores() {
-        return null;
+        List<Cliente> listaCliente = IBanco.buscarTodos();
+        List<Vendedor> listaVendedores = new ArrayList<>();
+
+        listaCliente.forEach(cliente -> {
+            if (cliente instanceof Vendedor vendedor) {
+                listaVendedores.add(vendedor);
+            }
+        });
+
+        return listaVendedores;
     }
 
     @Override
-    public List<Cliente> verClientes() {
-        return null;
+    public List<Cliente> verClientes(IBanco<Cliente, Long> banco) {
+            return IBanco.buscarTodos();
     }
 
     @Override

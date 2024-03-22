@@ -1,7 +1,7 @@
 package net.weg.TopCar.model.usuario;
 
 import net.weg.TopCar.dao.IBanco;
-import net.weg.TopCar.model.Veiculos;
+import net.weg.TopCar.model.veiculos.Veiculos;
 import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
 
 import java.util.List;

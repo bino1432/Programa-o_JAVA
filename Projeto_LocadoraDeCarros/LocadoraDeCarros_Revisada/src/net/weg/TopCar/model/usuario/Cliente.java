@@ -1,7 +1,7 @@
 package net.weg.TopCar.model.usuario;
 
 import net.weg.TopCar.dao.IBanco;
-import net.weg.TopCar.model.Veiculos;
+import net.weg.TopCar.model.veiculos.Veiculos;
 import net.weg.TopCar.model.exceptions.SenhaIncorretaException;
 import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
 
@@ -109,7 +109,7 @@ public class Cliente implements ICliente{
 
     @Override
     public List<Veiculos> verAutomoveis(IBanco<Veiculos, String> banco) {
-        return banco.buscarTodos();
+        return IBanco.buscarTodos();
     }
 
     @Override

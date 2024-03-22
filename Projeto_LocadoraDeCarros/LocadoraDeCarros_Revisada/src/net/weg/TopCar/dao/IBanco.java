@@ -5,7 +5,7 @@ import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
 import java.util.*;
 
 public interface IBanco<T, ID> {
-    List<T> buscarTodos();
+    static List<T> buscarTodos();
     T buscarUm(ID id)
             throws UsuarioNaoEncontradoException;
     void adicionar(T novo);

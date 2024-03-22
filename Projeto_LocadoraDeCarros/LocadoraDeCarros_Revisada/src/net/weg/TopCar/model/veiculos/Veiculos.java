@@ -1,4 +1,4 @@
-package net.weg.TopCar.model;
+package net.weg.TopCar.model.veiculos;
 
 import net.weg.TopCar.model.exceptions.VeiculoNaoEncontradoException;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class Veiculos {
     private static ArrayList<Veiculos> veiculo = new ArrayList<>();
-    private String codigo;
+    private Long codigo;
     private float preco;
     private String marca;
     private String placa;
@@ -55,7 +55,7 @@ public abstract class Veiculos {
 
     @Override
     public String toString() {
-        return "net.weg.TopCar.model.Veiculos{" +
+        return "net.weg.TopCar.model.veiculos.Veiculos{" +
                 "codigo='" + codigo + '\'' +
                 ", preco=" + preco +
                 ", marca='" + marca + '\'' +
@@ -68,7 +68,7 @@ public abstract class Veiculos {
                 '}';
     }
 
-    public Veiculos(String codigo, float preco, String marca, String placa, boolean novo, String status, int quilometragem, String modelo, int ano) {
+    public Veiculos(Long codigo, float preco, String marca, String placa, boolean novo, String status, int quilometragem, String modelo, int ano) {
         this.codigo = codigo;
         this.preco = preco;
         this.marca = marca;

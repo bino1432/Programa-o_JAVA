@@ -1,7 +1,7 @@
 package net.weg.TopCar.model.usuario;
 
 import net.weg.TopCar.dao.IBanco;
-import net.weg.TopCar.model.Veiculos;
+import net.weg.TopCar.model.veiculos.Veiculos;
 import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
 
 public class Vendedor extends Cliente implements IVendedor{
@@ -29,6 +29,10 @@ public class Vendedor extends Cliente implements IVendedor{
 
     public Double verPagamento(){
         return salario;
+    }
+
+    public String verPagamentoComNome() {
+        return "vendedor: " + this.getNome() + " Pagamento: " + this.salario;
     }
 
     @Override
