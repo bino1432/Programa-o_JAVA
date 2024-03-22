@@ -17,7 +17,7 @@ public interface IGerente extends IVendedor {
     Float verPagamentoDeUmVendedor(String cpf);
     void cadastrarUsuario(Cliente usuario);
     String editarUmUsuario(Long cpf, Cliente usuario, IBanco<Cliente, Long> banco) throws UsuarioNaoEncontradoException;
-    void editarVeiculo(Veiculos novoVeiculo, IBanco<Veiculos, Long> banco);
+    void editarVeiculo(Veiculos novoVeiculo, IBanco<Veiculos, Long> banco) throws UsuarioNaoEncontradoException;
     List<Vendedor> verVendedores();
     List<net.weg.TopCar.model.usuario.Cliente> verClientes();
 }

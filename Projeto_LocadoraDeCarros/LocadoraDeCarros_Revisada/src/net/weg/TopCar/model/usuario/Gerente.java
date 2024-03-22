@@ -104,9 +104,24 @@ public class Gerente extends Vendedor implements IGerente {
             return "Usuario editado";
     }
 
-    @Override
-    public void editarVeiculo(Veiculos novoVeiculo,IBanco<Veiculos, Long> banco) {
+    /***
+     * Método responsavel por iniciar a ação de edição de um veiculo
+     * em nível de repositório (DAO).
+     * o parametro de veiculo recebe as informações editadas do veiculo
+     * já o paramtro de banco recebe qual o repositório que manipula objetos
+     * do tipo veiculo.
+     * Como o id do veiculo permanecerá o mesmo, por esse motivo é possivel
+     * pegar o mesmo id presnte no objeto editado.
+     *
+     * @param novoVeiculo
+     * @param banco
+     * @throws UsuarioNaoEncontradoException
+     */
 
+    @Override
+    public void editarVeiculo(Veiculos novoVeiculo,IBanco<Veiculos, Long> banco)
+            throws UsuarioNaoEncontradoException {
+        banco.alterar(novoVeiculo.getCodigo(), novoVeiculo);
     }
 
     @Override

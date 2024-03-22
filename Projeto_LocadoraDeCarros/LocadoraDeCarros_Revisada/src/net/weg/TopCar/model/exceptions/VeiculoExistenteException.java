@@ -6,7 +6,7 @@ public class VeiculoExistenteException extends Exception{
         super("Veiculo já existente");
     }
 
-    public VeiculoExistenteException(String codigo){
+    public VeiculoExistenteException(Long codigo){
         super("Veiculo com o código: " + codigo + " já existe");
     }
 

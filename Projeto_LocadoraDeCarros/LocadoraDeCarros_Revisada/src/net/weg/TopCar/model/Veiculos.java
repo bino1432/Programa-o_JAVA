@@ -26,7 +26,7 @@ public abstract class Veiculos {
         return Collections.unmodifiableList(veiculo);
     }
 
-    public String getCodigo(){
+    public Long getCodigo(){
         return codigo;
     }
 

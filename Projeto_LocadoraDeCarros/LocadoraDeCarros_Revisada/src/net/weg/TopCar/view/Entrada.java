@@ -8,7 +8,7 @@ public abstract class Entrada<T> {
  
     public abstract T leia() throws InputMismatchException;
 
-    public T leia(String texto, Saida saida) throws InputMismatchException{
+    public T leiaComSaida(String texto, Saida saida) throws InputMismatchException{
         saida.escreva(texto);
         return leia();
     }
