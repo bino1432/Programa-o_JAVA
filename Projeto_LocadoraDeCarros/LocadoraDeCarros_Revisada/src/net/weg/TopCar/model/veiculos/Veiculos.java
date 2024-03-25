@@ -1,82 +1,106 @@
-package net.weg.TopCar.model.veiculos;
-
-import net.weg.TopCar.model.exceptions.VeiculoNaoEncontradoException;
+package net.weg.topcar.model.automoveis;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Veiculos {
-    private static ArrayList<Veiculos> veiculo = new ArrayList<>();
-    private Long codigo;
-    private float preco;
-    private String marca;
-    private String placa;
-    private boolean novo;
-    private String status;
-    private int quilometragem;
+public abstract class Automovel {
+    private static ArrayList<Automovel> listaAutomoveis = new ArrayList<Automovel>();
+    private final String CODIGO;
     private String modelo;
     private int ano;
+    private String marca;
+    private String tipoCombustivel;
+    private double preco;
+    private int quilometragem;
+    private String placa;
+    private String cor;
+    private boolean comprado;
+    private String estado;
 
-    public static void setPreco(float preco) {
-        preco = preco;
+    public Automovel(String CODIGO, String modelo, int ano, String marca, String tipoCombustivel, double preco, int quilometragem, String placa, String cor, String estado) {
+        this.CODIGO = CODIGO;
+        this.modelo = modelo;
+        this.ano = ano;
+        this.marca = marca;
+        this.tipoCombustivel = tipoCombustivel;
+        this.preco = preco;
+        this.quilometragem = quilometragem;
+        this.placa = placa;
+        this.cor = cor;
+        this.estado = estado;
+        this.comprado = false;
     }
 
-    public static List<Veiculos> getVeiculo() {
-        return Collections.unmodifiableList(veiculo);
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
-    public Long getCodigo(){
-        return codigo;
+    public void mudarStatusDeCompra() {
+        this.comprado = true;
     }
 
-    public float getPreco(){
+    public static List<Automovel> getListaAutomoveis() {
+        return Collections.unmodifiableList(listaAutomoveis);
+    }
+
+    public String getCODIGO() {
+        return CODIGO;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getTipoCombustivel() {
+        return tipoCombustivel;
+    }
+
+    public double getPreco() {
         return preco;
     }
 
-    public static Veiculos detalheVeiculo(String codigo) throws VeiculoNaoEncontradoException {
-        for (Veiculos veiculos : veiculo){
-            if (veiculos.codigo.equals(codigo)) {
-                return veiculos;
-            }
-        }
-        throw new VeiculoNaoEncontradoException(codigo);
+    public int getQuilometragem() {
+        return quilometragem;
     }
 
-    public static ArrayList<Veiculos> addVeiculo(Veiculos veiculos){
-        veiculo.add(veiculos);
-        return null;
+    public String getPlaca() {
+        return placa;
     }
 
-    public static ArrayList<Veiculos> removeVeiculo(Veiculos veiculos){
-        veiculo.remove(veiculos);
-        return null;
+    public String getCor() {
+        return cor;
+    }
+
+    public boolean isComprado() {
+        return comprado;
+    }
+
+    public String getEstado() {
+        return estado;
     }
 
     @Override
     public String toString() {
-        return "net.weg.TopCar.model.veiculos.Veiculos{" +
-                "codigo='" + codigo + '\'' +
-                ", preco=" + preco +
-                ", marca='" + marca + '\'' +
-                ", placa='" + placa + '\'' +
-                ", novo=" + novo +
-                ", status='" + status + '\'' +
-                ", quilometragem=" + quilometragem +
-                ", modelo='" + modelo + '\'' +
-                ", ano=" + ano +
-                '}';
-    }
-
-    public Veiculos(Long codigo, float preco, String marca, String placa, boolean novo, String status, int quilometragem, String modelo, int ano) {
-        this.codigo = codigo;
-        this.preco = preco;
-        this.marca = marca;
-        this.placa = placa;
-        this.novo = novo;
-        this.status = status;
-        this.quilometragem = quilometragem;
-        this.modelo = modelo;
-        this.ano = ano;
+        return
+                "\nCódigo: " + this.getCODIGO() +
+                        "\nModelo: " + this.getModelo() +
+                        "\nAno: " + this.getAno() +
+                        "\nMarca: " + this.getMarca() +
+                        "\nTipo de combústivel: " + this.getTipoCombustivel() +
+                        "\nPreço: " + this.getPreco() +
+                        "\nQuilometragem: " + this.getQuilometragem() +
+                        "\nPlaca: " + this.getPlaca() +
+                        "\nCor: " + this.getCor() +
+                        "\nStatus: " + (this.isComprado() ? "Comprado" : "À venda") +
+                        "\nEstado: " + this.getEstado();
     }
 }

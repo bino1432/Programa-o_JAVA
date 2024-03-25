@@ -1,29 +1,34 @@
-package net.weg.TopCar.model.usuario;
+package net.weg.topcar.model.usuarios;
 
-import net.weg.TopCar.model.exceptions.SenhaIncorretaException;
-import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
-import net.weg.TopCar.dao.BancoUsuario;
+import net.weg.TopCar.model.usuario.Cliente;
+import net.weg.TopCar.dao.BancoCliente;
+import net.weg.topcar.model.exceptions.ObjetoNaoEncontradoException;
+import net.weg.topcar.model.exceptions.SenhaIncorretaException;
+
+;
 
 public class LoginUsuario {
+    private final BancoCliente bancoUsuario;
     private Cliente usuario;
-    private BancoUsuario bancoUsuario;
 
-    public Cliente login(String cpf, String senha)
-            throws UsuarioNaoEncontradoException,
-            SenhaIncorretaException {
-        this.usuario = bancoUsuario.procurarUsuario(cpf);
-        validarSenha(senha);
-        return this.usuario;
-    }
-
-    public LoginUsuario(BancoUsuario bancoUsuario) {
+    public LoginUsuario(
+            BancoCliente bancoUsuario){
         this.bancoUsuario = bancoUsuario;
     }
-
-    private void validarSenha(String senha) throws SenhaIncorretaException {
-        if (!this.usuario.getSenha().equals(senha)) {
-            return;
-        }else {
+    public Cliente login(Long cpf,
+                         String senha)
+            throws ObjetoNaoEncontradoException,
+            SenhaIncorretaException {
+        this.usuario = this.bancoUsuario
+                .buscarUm(cpf);
+        validarSenha(senha);
+        return usuario;
+    }
+    private void validarSenha(
+            String senha)
+            throws SenhaIncorretaException {
+        if(!usuario.getSenha()
+                .equals(senha)){
             throw new SenhaIncorretaException();
         }
     }

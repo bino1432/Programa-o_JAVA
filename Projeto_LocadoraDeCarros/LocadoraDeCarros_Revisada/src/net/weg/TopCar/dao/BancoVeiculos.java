@@ -1,44 +1,58 @@
-package net.weg.TopCar.dao;
+package net.weg.topcar.dao;
 
-import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
-import net.weg.TopCar.model.veiculos.Veiculos;
+import net.weg.topcar.model.automoveis.Automovel;
+import net.weg.topcar.model.exceptions.ObjetoNaoEncontradoException;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
-public class BancoVeiculos implements IBanco<Veiculos, String> {
-        private List<Veiculos> listaAutomoveis;
+public class BancoAutomoveis
+        implements net.weg.topcar.dao.IBanco<Automovel, String> {
+    private List<Automovel> listaAutomoveis;
 
-        public List<Veiculos> buscarTodos() {
-            return Collections.unmodifiableList(
-                    listaAutomoveis);
-        }
+    public List<Automovel> buscarTodos() {
+        return Collections.unmodifiableList(
+                listaAutomoveis);
+    }
 
-        public Veiculos buscarUm(String codigo)
-            throws UsuarioNaoEncontradoException {
-            for (Veiculos automovel : listaAutomoveis) {
-                if (automovel.getCodigo().equals(codigo)) {
-                    return automovel;
-                }
+    public Automovel buscarUm(String codigo)
+            throws ObjetoNaoEncontradoException {
+        for (Automovel automovel : listaAutomoveis) {
+            if (automovel.getCODIGO().equals(codigo)) {
+                return automovel;
             }
-            throw new UsuarioNaoEncontradoException(codigo);
+        }
+        throw new ObjetoNaoEncontradoException(codigo);
+    }
+
+    public void adicionar(Automovel automovel) {
+        listaAutomoveis.add(automovel);
+    }
+
+    public void remover(String codigo)
+            throws ObjetoNaoEncontradoException {
+        Automovel automovel = buscarUm(codigo);
+        listaAutomoveis.remove(automovel);
+    }
+    @Override
+    public Boolean existe(String codigo) {
+        try {
+            buscarUm(codigo);
+            return true;
+        } catch (ObjetoNaoEncontradoException e) {
+            return false;
         }
 
-        public void adicionar(Veiculos automovel) {
-            listaAutomoveis.add(automovel);
-        }
+    }
 
-        public void remover(String codigo)
-            throws UsuarioNaoEncontradoException {
-            Veiculos automovel = buscarUm(codigo);
-            listaAutomoveis.remove(automovel);
-        }
 
-        public void alterar(String cpf,
-                            Veiculos novoUsuario)
-            throws UsuarioNaoEncontradoException {
-            Veiculos automovel = buscarUm(cpf);
-            listaAutomoveis.set(
-                    listaAutomoveis.indexOf(automovel),
-                    novoUsuario);
-        }
+    public void alterar(String cpf,
+                        Automovel novoUsuario)
+            throws ObjetoNaoEncontradoException {
+        Automovel automovel = buscarUm(cpf);
+        listaAutomoveis.set(
+                listaAutomoveis.indexOf(automovel),
+                novoUsuario);
+    }
+
 }

@@ -1,152 +1,143 @@
-package net.weg.TopCar.model.usuario;
+package net.weg.topcar.model.usuarios;
 
-import net.weg.TopCar.dao.IBanco;
-import net.weg.TopCar.model.veiculos.Veiculos;
-import net.weg.TopCar.model.exceptions.PrecoInvalidoException;
-import net.weg.TopCar.model.exceptions.UsuarioExistenteException;
-import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
-import net.weg.TopCar.model.exceptions.VeiculoExistenteException;
+import net.weg.TopCar.model.usuario.Vendedor;
+import net.weg.topcar.dao.IBanco;
+import net.weg.topcar.model.automoveis.Automovel;
+import net.weg.topcar.model.exceptions.AcessoNegadoException;
+import net.weg.topcar.model.exceptions.ObjetoNaoEncontradoException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gerente extends Vendedor implements IGerente {
-    public Gerente(String nome, Long cpf, String senha, double salario) {
-        super(nome, cpf, senha, salario);
+public class Gerente extends Vendedor implements net.weg.topcar.model.usuarios.IGerente {
+
+    public Gerente(String nome, Long cpf, String senha, Long idade, double salario) {
+        super(nome, cpf, senha, idade, salario);
+    }
+
+    public String menu() {
+        return super.menu() +
+                """
+                7 - Registrar automóvel;
+                8 - Remover automóvel;
+                9 - Editar automóvel;
+                10 - Editar preço;
+                11 - Registrar usuário;
+                12 - Remover usuário;
+                13 - Editar usuário;
+                14 - Ver vendedores;
+                15 - Ver clientes;
+                16 - Ver pagamentos dos vendedores;
+                17 - Ver pagamento de um vendedor;
+                """;
     }
 
     @Override
-    public void alterarPreco(String codigo, float novoPreco) throws PrecoInvalidoException {
-
+    public String editarUsuario(net.weg.topcar.model.usuarios.Cliente clieteEditado, IBanco<net.weg.topcar.model.usuarios.Cliente, Long> banco) throws ObjetoNaoEncontradoException {
+        banco.alterar(clieteEditado.getCpf(), clieteEditado);
+        return "Usuário editado!";
     }
 
-    public static void removerVeiculo(Long codigo){
-        for(Veiculos veiculo : Veiculos.getVeiculo()){
-            if(veiculo.getCodigo().equals(codigo)){
-                Veiculos.getVeiculo().remove(veiculo);
-            }
-        }
-    }
 
-    public static void mudarPreco(String codigo, float preco) throws PrecoInvalidoException{
-
-        if (preco <= 0){
-            throw new PrecoInvalidoException();
-        }
-
-        for(Veiculos veiculo : Veiculos.getVeiculo()){
-            if(veiculo.getCodigo().equals(codigo)){
-                Veiculos.setPreco(preco);
-            }
-        }
-    }
-
-    public void cadastrarVeiculo(Veiculos veiculo)
-            throws VeiculoExistenteException,
-            PrecoInvalidoException {
-
-        if(veiculo.getPreco() <= 0){
-            throw new PrecoInvalidoException();
-        }
-
-        for (Veiculos veiculoExistente : Veiculos.getVeiculo()){
-            if (veiculo.getCodigo().equals(veiculoExistente.getCodigo())){
-                throw new VeiculoExistenteException(veiculo.getCodigo());
-            }
-        }
-        Veiculos.addVeiculo(veiculo);
-    }
-
+    //    @Override
+//    public void venderAutomovel(Automovel automovel, Cliente cliente) {
+//        cliente.adicionarProprioAutomovel(automovel);
+//        this.setComissoes(automovel.getPreco() * 0.02);
+//    }
     @Override
-    public float verPagamentos() {
-        return 0;
+    public String registrarAutomovel(IBanco<Automovel, String> banco, Automovel automovel) {
+        banco.adicionar(automovel);
+        return "Automóvel registrado";
     }
-
     @Override
-    public String removerUsuario(String cpf) {
-        return null;
+    public String removerAutomovel(IBanco<Automovel, String> banco, String codigo) throws ObjetoNaoEncontradoException{
+        banco.remover(codigo);
+        return "Automóvel removido";
     }
 
-    @Override
-    public String removerVeiculo(String codigo) {
-        return null;
-    }
-
-    public static void cadastrarUsuario(String nome, String senha, Long cpf, String cnh)
-            throws UsuarioExistenteException{
-        for (Cliente usuarioExistente : getUsuarios()){
-            if (usuarioExistente.getCpf().equals(cpf)){
-                throw new UsuarioExistenteException(nome);
-            }
-        }
-        Cliente usuario = new Cliente(nome, cpf, senha);
-        Cliente.addUsuario(usuario);
-    }
-
-    public static void removerUsuario(Long cpf){
-        for (Cliente usuario : getUsuarios()){
-            if(usuario.getCpf().equals(cpf)){
-                getUsuarios().remove(usuario);
-            }
-        }
-    }
-
-    @Override
-    public void cadastrarUsuario(Cliente usuario, IBanco<Cliente, String> banco) {
-        if (!(usuario instanceof Gerente)){
-            banco.adicionar(usuario);
-        }
-
-    }
-
-    @Override
-    public String editarUmUsuario(Long cpf, Cliente usuario, IBanco<Cliente, Long> banco)
-            throws UsuarioNaoEncontradoException {
-            banco.alterar(cpf, usuario);
-            return "Usuario editado";
-    }
-
-    /***
-     * Método responsavel por iniciar a ação de edição de um veiculo
-     * em nível de repositório (DAO).
-     * o parametro de veiculo recebe as informações editadas do veiculo
-     * já o paramtro de banco recebe qual o repositório que manipula objetos
-     * do tipo veiculo.
-     * Como o id do veiculo permanecerá o mesmo, por esse motivo é possivel
-     * pegar o mesmo id presnte no objeto editado.
-     *
-     * @param novoVeiculo
+    /**
+     * Método responsável por iniciar a ação de edição de um automóvel em nível de repositório (DAO).
+     * O parametro de automóvel rece as informações editadas do automóvel, já o parametro de banco
+     * recebe qual o repositório manipula objetos do tipo Automóvel.
+     * O id do automóvel permanecerá o mesmo, por essse motivo é possível pegar o mesmo id presente
+     * no objeto editado.
+     * @param automovelEditado
      * @param banco
-     * @throws UsuarioNaoEncontradoException
+     * @throws ObjetoNaoEncontradoException
      */
-
     @Override
-    public void editarVeiculo(Veiculos novoVeiculo,IBanco<Veiculos, Long> banco)
-            throws UsuarioNaoEncontradoException {
-        banco.alterar(novoVeiculo.getCodigo(), novoVeiculo);
+    public String editarAutomovel(Automovel automovelEditado, IBanco<Automovel, String> banco) throws ObjetoNaoEncontradoException {
+        banco.alterar(automovelEditado.getCODIGO(), automovelEditado);
+        return "Automóvel editado!";
     }
 
     @Override
-    public List<Vendedor> verVendedores() {
-        List<Cliente> listaCliente = IBanco.buscarTodos();
+    public String editarPreco(String codigo, double preco, IBanco<Automovel, String> banco) throws ObjetoNaoEncontradoException {
+        Automovel automovel = banco.buscarUm(codigo);
+        automovel.setPreco(preco);
+        banco.alterar(codigo,automovel);
+        return "Preço do automóvel editado!";
+    }
+    @Override
+    public String registrarUsuario(net.weg.topcar.model.usuarios.Cliente cliente, IBanco<net.weg.topcar.model.usuarios.Cliente, Long> banco) throws AcessoNegadoException {
+        if (!(cliente instanceof Gerente)){
+            banco.adicionar(cliente);
+            return "Usuário editado!";
+        }
+        throw new AcessoNegadoException("");
+    }
+    @Override
+    public String removerUsuario(Long cpf, IBanco<net.weg.topcar.model.usuarios.Cliente, Long> banco) throws AcessoNegadoException, ObjetoNaoEncontradoException {
+        net.weg.topcar.model.usuarios.Cliente cliente = banco.buscarUm(cpf);
+        if (!(cliente instanceof Gerente)) {
+            banco.remover(cpf);
+            return "Usuário removido!";
+        }
+        throw new AcessoNegadoException("Usuário é um vendedor");
+    }
+
+    @Override
+    public List<Vendedor> verVendedores(IBanco<net.weg.topcar.model.usuarios.Cliente, Long> banco) {
+//        List<Cliente> listaVendedores = banco.buscarTodos();
+//        listaVendedores.removeIf(cliente -> !(cliente instanceof Vendedor));
+
+        List<net.weg.topcar.model.usuarios.Cliente> listaClientes = banco.buscarTodos();
         List<Vendedor> listaVendedores = new ArrayList<>();
 
-        listaCliente.forEach(cliente -> {
+        for (net.weg.topcar.model.usuarios.Cliente cliente : listaClientes) {
             if (cliente instanceof Vendedor vendedor) {
                 listaVendedores.add(vendedor);
             }
-        });
-
+        }
         return listaVendedores;
+    }
+    @Override
+    public List<net.weg.topcar.model.usuarios.Cliente> verClientes(IBanco<net.weg.topcar.model.usuarios.Cliente, Long> banco) {
+        return banco.buscarTodos();
     }
 
     @Override
-    public List<Cliente> verClientes(IBanco<Cliente, Long> banco) {
-            return IBanco.buscarTodos();
+    public List<String>verPagamentoVendedores(IBanco<net.weg.topcar.model.usuarios.Cliente, Long> banco){
+        List<String> listaPagamentos = new ArrayList<>();
+        for (Vendedor vendedor: verVendedores(banco)){
+            listaPagamentos.add(vendedor.verPagamentoComNome());
+        }
+        return listaPagamentos;
     }
+
+    @Override
+    public String verPagamentoVendedor(Long cpf, IBanco<net.weg.topcar.model.usuarios.Cliente, Long> banco) throws ObjetoNaoEncontradoException {
+        net.weg.topcar.model.usuarios.Cliente cliente = banco.buscarUm(cpf);
+        if(cliente instanceof Vendedor vendedor){
+            return vendedor.verPagamentoComNome();
+        }
+        throw new RuntimeException(
+                "O usuário informado não é um vendedor");
+    }
+
 
     @Override
     public String toString() {
-        return "Gerente{}";
+        return super.toString();
     }
 }

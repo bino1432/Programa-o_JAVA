@@ -6,7 +6,7 @@ public class EntradaInteiro extends Entrada<Long>{
 
     @Override
     protected boolean validacaoEntrada(Long valor) {
-        return false;
+        return valor > 0;
     }
 
     @Override

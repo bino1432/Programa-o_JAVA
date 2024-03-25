@@ -1,42 +1,65 @@
 package net.weg.TopCar.dao;
 
-import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
-import net.weg.TopCar.model.usuario.Cliente;
+import net.weg.topcar.model.exceptions.AcessoNegadoException;
+import net.weg.topcar.model.exceptions.ObjetoNaoEncontradoException;
+import net.weg.topcar.model.usuarios.Cliente;
+import net.weg.topcar.model.usuarios.IGerente;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class BancoUsuario {
-    private static ArrayList<Cliente> listaUsuarios;
+public class BancoCliente implements
+        net.weg.topcar.dao.IBanco<Cliente, Long> {
+    private List<Cliente> listaClientes;
 
-    public void alterar(String cpf, Cliente novoUsuario) throws UsuarioNaoEncontradoException {
-        Cliente usuario = procurarUsuario(cpf);
-        listaUsuarios.set(listaUsuarios.indexOf(usuario), novoUsuario);
+    public List<Cliente> buscarTodos() {
+        return Collections.unmodifiableList(
+                listaClientes);
     }
 
-    public ArrayList<Cliente> buscarTodosUsuarios() {
-        return listaUsuarios;
-    }
-
-    public void remover(Cliente usuario) {
-        listaUsuarios.remove(usuario);
-    }
-    public Cliente procurarUsuario(String cpf) throws UsuarioNaoEncontradoException {
-        for (Cliente usuario: listaUsuarios) {
-            if (usuario.getCpf().equals(cpf)) {
-                return usuario;
+    public Cliente buscarUm(Long cpf)
+            throws ObjetoNaoEncontradoException {
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getCpf().equals(cpf)) {
+                return cliente;
             }
         }
-
-        throw new UsuarioNaoEncontradoException(cpf);
+        throw new ObjetoNaoEncontradoException(cpf);
     }
 
-    public void remover(String cpf) throws UsuarioNaoEncontradoException {
-        listaUsuarios.remove(procurarUsuario(cpf));
+    public void adicionar(Cliente cliente) {
+        listaClientes.add(cliente);
     }
 
+    public void remover(Long cpf)
+            throws ObjetoNaoEncontradoException {
+        Cliente cliente = buscarUm(cpf);
+        if(!(cliente instanceof IGerente)){
+            listaClientes.remove(cliente);
+        } else {
+            throw new AcessoNegadoException("Usuário é um gerente");
+        }
 
-    public void adicionarUsuario(Cliente usuario) {
-        listaUsuarios.add(usuario);
+    }
+
+    @Override
+    public Boolean existe(Long cpf) {
+        try {
+            buscarUm(cpf);
+            return true;
+        } catch (ObjetoNaoEncontradoException e) {
+            return false;
+        }
+
+    }
+
+    public void alterar(Long cpf,
+                        Cliente novoCliente)
+            throws ObjetoNaoEncontradoException {
+        Cliente cliente = buscarUm(cpf);
+        listaClientes.set(
+                listaClientes.indexOf(cliente),
+                novoCliente);
     }
 
 }

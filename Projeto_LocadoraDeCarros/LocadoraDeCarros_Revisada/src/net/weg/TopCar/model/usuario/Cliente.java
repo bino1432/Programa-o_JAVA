@@ -1,126 +1,76 @@
-package net.weg.TopCar.model.usuario;
+package net.weg.topcar.model.usuarios;
 
-import net.weg.TopCar.dao.IBanco;
-import net.weg.TopCar.model.veiculos.Veiculos;
-import net.weg.TopCar.model.exceptions.SenhaIncorretaException;
-import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
+import net.weg.topcar.dao.IBanco;
+import net.weg.topcar.model.automoveis.Automovel;
+import net.weg.topcar.model.exceptions.ObjetoNaoEncontradoException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Cliente implements ICliente{
-
-    private static ArrayList<Cliente> usuarios = new ArrayList<>();
-    private static ArrayList<Veiculos> meusVeiculos = new ArrayList<>();
-
+public class Cliente implements net.weg.topcar.model.usuarios.ICliente {
     private String nome;
-    private static Long cpf;
+    private Long cpf;
     private String senha;
-    private String cnh;
+    private Long idade;
+    private ArrayList<Automovel> listaAutomoveis = new ArrayList<Automovel>();
 
-    public Cliente(String nome, Long cpf, String senha){
+    public Cliente(String nome, Long cpf, String senha, Long idade) {
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
+        this.idade = idade;
     }
 
-    public static Long getCpf(){
-        return cpf;
+
+    public List<Automovel> verAutomoveis(IBanco<Automovel, String> banco) {
+        return banco.buscarTodos();
     }
 
-    public static Cliente procurarUsuario(Long cpf) {
-        for (Cliente user : usuarios) {
-            if (user.cpf.equals(cpf)){
-                return user;
-            }
-        }
+    public List<Automovel> verMeusAutomoveis() {
         return null;
     }
 
-    public List<Veiculos> getVeiculos(){
-        return Collections.unmodifiableList(meusVeiculos);
+    public Automovel verAutomovel(String codigo, IBanco<Automovel, String> banco) throws ObjetoNaoEncontradoException {
+        return banco.buscarUm(codigo);
     }
 
-    public static List<Cliente> getUsuarios(){
-        return Collections.unmodifiableList(usuarios);
-    }
-
-    public static void addUsuario(Cliente usuario){
-            usuarios.add(usuario);
-    }
-
-    public static Cliente verUsuarios() {
-        for (Cliente user : usuarios) {
-            return user;
-        }
-        return null;
-    }
-
-    public Veiculos verMeusVeiculos() {
-        for (Veiculos veiculo : meusVeiculos) {
-            return veiculo;
-        }
-        return null;
-    }
-
-    public static Cliente Login(String nome, String senha)
-            throws SenhaIncorretaException,
-            UsuarioNaoEncontradoException {
-        for(Cliente user : usuarios){
-            if (user.nome.equals(nome)){
-                if (user.senha.equals(senha)){
-                    return user;
-                }
-                throw new SenhaIncorretaException();
-            }
-        }
-        throw new UsuarioNaoEncontradoException(nome);
-    }
-
-    public String getSenha() {
-        return senha;
+    public String menu() {
+        return """                  
+                1 - Ver automóveis;
+                2 - Ver automóvel especifico;
+                3 - Ver seus automóveis;
+                """;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void alterarUsuario(Cliente novoUsuario) {
-
+    public Long getCpf() {
+        return cpf;
     }
 
-    public Cliente(String nome, Long cpf, String senha, String cnh) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.senha = senha;
-        this.cnh = cnh;
+    public String getSenha() {
+        return senha;
     }
 
-    @Override
+    public Long getIdade() {
+        return idade;
+    }
+
+    public List<Automovel> getListaAutomoveis() {
+        return Collections.unmodifiableList(listaAutomoveis);
+    }
+
+    public void adicionarProprioAutomovel(Automovel automovel) {
+        this.listaAutomoveis.add(automovel);
+        automovel.mudarStatusDeCompra();
+    }
+
     public String toString() {
-        return "Cliente{" +
-                "nome='" + this.nome + '\'' +
-                "cpf='" + this.cpf + '\'' +
-                "senha='" + this.senha + '\'' +
-                "cnh='" + this.cnh + '\'' +
-                '}';
-    }
-
-    @Override
-    public List<Veiculos> verAutomoveis(IBanco<Veiculos, String> banco) {
-        return IBanco.buscarTodos();
-    }
-
-    @Override
-    public List<Veiculos> verMeusAutomoveis() {
-        return null;
-    }
-
-    @Override
-    public Veiculos verAutomovel
-            (String codigo, IBanco<Veiculos, String> banco)
-            throws UsuarioNaoEncontradoException {
-        return banco.buscarUm(codigo);
+        return "\nNome: " + this.nome +
+                "\nCPF: " + this.cpf +
+                "\nIdade: " + this.idade + "\n";
     }
 }

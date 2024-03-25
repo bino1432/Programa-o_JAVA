@@ -1,42 +1,76 @@
-package net.weg.TopCar.model.usuario;
+package net.weg.topcar.model.usuarios;
 
-import net.weg.TopCar.dao.IBanco;
-import net.weg.TopCar.model.veiculos.Veiculos;
-import net.weg.TopCar.model.exceptions.UsuarioNaoEncontradoException;
+import net.weg.topcar.dao.IBanco;
+import net.weg.topcar.model.automoveis.Automovel;
 
-public class Vendedor extends Cliente implements IVendedor{
+import java.util.List;
 
-    private static Double salario;
 
-    public Vendedor(String nome, Long cpf, String senha, Double salario) {
-        super(nome, cpf, senha);
+public class Vendedor extends net.weg.topcar.model.usuarios.Cliente implements net.weg.topcar.model.usuarios.IVendedor {
+
+    private double salario;
+
+    private double comissoes;
+
+    public Vendedor(String nome, Long cpf, String senha, Long idade, double salario) {
+        super(nome, cpf, senha, idade);
         this.salario = salario;
     }
 
-    public Double consultarPagamento(){
-        return verPagamento();
+    public String menu() {
+        return super.menu() + """
+                4 - Vender automóvel;
+                5 - Procurar usuário;
+                6 - Ver pagamento;
+                """;
+    }
+
+    public String verPagamento() {
+        return ("R$ " + (salario + comissoes));
+    }
+
+
+    public void venderAutomovel(Automovel automovel, net.weg.topcar.model.usuarios.Cliente cliente) {
+        cliente.adicionarProprioAutomovel(automovel);
+        this.setComissoes((automovel.getPreco() * 0.01));
+    }
+
+    private void setComissoes(double v) {
+        this.comissoes = v;
     }
 
     @Override
-    public void vender(Veiculos veiculo, Cliente usuario) {
+    public void vender(Automovel automovel, net.weg.topcar.model.usuarios.Cliente cliente){
 
     }
 
     @Override
-    public Cliente buscarUsuario(Long cpf, IBanco<Cliente, Long> banco) throws UsuarioNaoEncontradoException {
-        return banco.buscarUm(cpf);
-    }
+    public void buscarUsuario(Long cpf, IBanco<net.weg.topcar.model.usuarios.Cliente, Long> banco) {
 
-    public Double verPagamento(){
-        return salario;
     }
 
     public String verPagamentoComNome() {
-        return "vendedor: " + this.getNome() + " Pagamento: " + this.salario;
+        return this.getNome() + " : " + this.verPagamento();
     }
 
     @Override
     public String toString() {
-        return "Vendedor{}";
+        return super.toString() +
+                "\nSalário: R$ " + this.salario +
+                "\nComissões: R$ " + this.comissoes + " }\n";
+    }
+
+
+    public List<Automovel> verAutomoveis() {
+        return null;
+    }
+
+    @Override
+    public List<Automovel> verMeusAutomoveis() {
+        return null;
+    }
+
+    public Automovel verAutomovel(String codigo) {
+        return null;
     }
 }

@@ -6,4 +6,8 @@ public class Saida {
         System.out.println(texto);
     }
 
+    public void escrevaL(String texto){
+        System.out.println(texto);
+    }
+
 }
