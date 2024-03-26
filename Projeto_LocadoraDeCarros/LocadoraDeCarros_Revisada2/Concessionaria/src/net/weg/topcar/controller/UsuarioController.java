@@ -5,10 +5,7 @@ import net.weg.topcar.dao.BancoAutomoveis;
 import net.weg.topcar.dao.BancoCliente;
 import net.weg.topcar.dao.IBanco;
 import net.weg.topcar.model.automoveis.Automovel;
-import net.weg.topcar.model.exceptions.AcessoNegadoException;
-import net.weg.topcar.model.exceptions.ObjetoNaoEncontradoException;
-import net.weg.topcar.model.exceptions.TipoDeUsuarioInvalidoException;
-import net.weg.topcar.model.exceptions.UsuarioExistenteException;
+import net.weg.topcar.model.exceptions.*;
 import net.weg.topcar.model.usuarios.*;
 import net.weg.topcar.view.*;
 
@@ -62,6 +59,15 @@ public class UsuarioController {
         return bancoUsuarios.buscarUm(cpf);
     }
 
+    private String entradaCodigo(){
+        return entradaTexto.leiaComSaidaEValidacao("Codigo: ", saida);
+    }
+
+    private Automovel buscarAutomovel() throws ObjetoNaoEncontradoException {
+        String codigo = entradaCodigo();
+        return bancoAutomovel.buscarUm(codigo);
+    }
+
     public void verUsuario(){
         try {
             Cliente cliente = buscarUsuario();
@@ -98,9 +104,9 @@ public class UsuarioController {
         saida.escreva(clientes.toString());
     }
 
-    public void verPagamentoVendedores(){
-        List<Vendedor>listaVendedores = buscarVendedores();
-        for(Vendedor vendedor : listaVendedores){
+    public void verPagamentoVendedores() {
+        List<Vendedor> listaVendedores = buscarVendedores();
+        for (Vendedor vendedor : listaVendedores) {
             saida.escrevaL(vendedor.verPagamento());
         }
     }
@@ -124,6 +130,11 @@ public class UsuarioController {
         }
     }
 
+    private void atualizarEnvolvidosNaVenda(Cliente cliente,
+                                            Vendedor vendedor,
+                                            Gerente Gerente){}
+
+
     public void vender(){
         if(usuarioLogado instanceof IVendedor vendedor){
             saida.escrevaL("Identifique o comprador:");
@@ -134,9 +145,11 @@ public class UsuarioController {
                 Automovel automovel = bancoAutomovel.buscarUm(codigo);
                 vendedor.vender(automovel,cliente);
                 bancoUsuarios.alterar(cliente.getCpf(), cliente);
+                bancoUsuarios.alterar(vendedor.getCpf(), vendedor);
                 bancoAutomovel.alterar(codigo, automovel);
 
-            }catch (ObjetoNaoEncontradoException e){
+            }catch (ObjetoNaoEncontradoException |
+                    FalhaNaCompraException e){
                 saida.escrevaL(e.getMessage());
             }
         }
@@ -153,11 +166,19 @@ public class UsuarioController {
     }
 
     private String entradaNome(){
-        return entradaTexto.leiaComSaidaEValidacao("Nome:", saida);
+        String novoNome = entradaTexto.leiaComSaida("Nome: ", saida);
+        if (novoNome.isEmpty()){
+            novoNome = nome;
+        }
+        return novoNome;
     }
 
     private Long entradaIdade(){
-        return entradaInteiro.leiaComSaidaEValidacao("Idade:", saida);
+        Long novaIdade = entradaInteiro.leiaComSaida("Idade: ", saida);
+        if (novaIdade == 0){
+            novaIdade = idade;
+        }
+        return novaIdade;
     }
 
     private String entradaSenha(){
@@ -185,8 +206,14 @@ public class UsuarioController {
         bancoUsuarios.adicionar(new Cliente(nome, cpf, senha, idade));
     }
 
-    private void cadastroVendedor(String nome, Long cpf, String senha, Long idade) {
-        Double salario = entradaSalario();
+    private void cadastroVendedor(String nome, Long cpf, String senha, Long idade, Double salario) {
         bancoUsuarios.adicionar(new Vendedor(nome, cpf, senha, idade, salario));
+    }
+
+    private Vendedor isVendedor(){
+        if(usuarioLogado instanceof Vendedor vendedor) {
+            return vendedor;
+        }
+        return null;
     }
 }
