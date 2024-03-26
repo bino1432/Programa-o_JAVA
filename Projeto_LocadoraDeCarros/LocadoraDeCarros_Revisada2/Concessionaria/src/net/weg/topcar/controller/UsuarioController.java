@@ -38,8 +38,8 @@ public class UsuarioController {
         Long cpf = entradaCPF();
         try {
             validaCPF(cpf);
-            String nome = entradaNome();
-            Long idade = entradaIdade();
+            String nome = entradaNome("marcos");
+            Long idade = entradaIdade(12L);
             String senha = entradaSenha();
             if (usuarioLogado instanceof Gerente) {
                 Long escolha = selecionaTipoDeUsuario();
@@ -145,7 +145,7 @@ public class UsuarioController {
                 Automovel automovel = bancoAutomovel.buscarUm(codigo);
                 vendedor.vender(automovel,cliente);
                 bancoUsuarios.alterar(cliente.getCpf(), cliente);
-                bancoUsuarios.alterar(vendedor.getCpf(), vendedor);
+                bancoUsuarios.alterar(vendedor.getCpf(), (Cliente) vendedor);
                 bancoAutomovel.alterar(codigo, automovel);
 
             }catch (ObjetoNaoEncontradoException |
@@ -165,7 +165,7 @@ public class UsuarioController {
         return entradaInteiro.leiaComSaidaEValidacao("CPF:", saida);
     }
 
-    private String entradaNome(){
+    private String entradaNome(String nome){
         String novoNome = entradaTexto.leiaComSaida("Nome: ", saida);
         if (novoNome.isEmpty()){
             novoNome = nome;
@@ -173,7 +173,7 @@ public class UsuarioController {
         return novoNome;
     }
 
-    private Long entradaIdade(){
+    private Long entradaIdade(Long idade){
         Long novaIdade = entradaInteiro.leiaComSaida("Idade: ", saida);
         if (novaIdade == 0){
             novaIdade = idade;

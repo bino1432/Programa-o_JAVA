@@ -9,4 +9,6 @@ public interface IVendedor{
     void vender(Automovel automovel,Cliente cliente) throws FalhaNaCompraException;
     void buscarUsuario(Long cpf, IBanco<Cliente, Long> banco);
     String verPagamento();
+
+    Long getCpf();
 }
