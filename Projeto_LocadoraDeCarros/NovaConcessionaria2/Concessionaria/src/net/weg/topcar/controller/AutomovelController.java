@@ -218,4 +218,21 @@ public class AutomovelController {
     private String entradaCodigo() {
         return entradaTexto.leiaComSaidaEValidacao("Código: ", saida);
     }
+
+    private Boolean entradaNovo() {
+        Long entrada;
+        do {
+            entrada = entradaInteiro.leiaComSaida("""
+                    Automovel 0km?
+                    1 - Sim
+                    2 - Não
+                    """, saida);
+        } while(entrada > 2);
+        return entrada == 1;
+    }
+    private void editarVeiculo() {
+        try {
+            bancoAutomovel.alterar(codigo, automovelEditado);
+        }
+    }
 }
