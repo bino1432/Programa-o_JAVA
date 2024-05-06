@@ -17,8 +17,8 @@ public class Turma {
 
     public Turma(){}
 
-    public void adicionarAluno(Aluno aluno) {
-        alunos.add(aluno);
+    public void adicionarAlunaATurma(Aluno aluno){
+            alunos.add(aluno);
     }
 
     public void alterarProfessor(Professor professor){

@@ -34,4 +34,14 @@ public class Secretario extends Usuario{
         Turma turma = new Turma();
         return "Turma vazia criada com sucesso";
     }
+
+    public String adicionarAlunaATurma(Turma turma, Aluno aluno){
+        turma.adicionarAlunaATurma(aluno);
+        return "Aluno adicionado na turma com sucesso";
+    }
+
+    public String alterarProfessor(Turma turma, Professor professor){
+        turma.alterarProfessor(professor);
+        return "Professor alterado com sucesso";
+    }
 }
