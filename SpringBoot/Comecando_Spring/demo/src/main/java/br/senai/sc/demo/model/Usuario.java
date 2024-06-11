@@ -1,6 +1,13 @@
 package br.senai.sc.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.ToString;
+
+// @Getter
+// cria um Get para cada um dos atributos
+// Getter na classe cria para todos os atributos
+// em cima do atributo cria apenas para ele
 
 @Entity
 // Associa esta classe com uma tabela do banco de dados,
@@ -17,15 +24,21 @@ import jakarta.persistence.*;
 
 // @Id - Fala qual a primary key da classe
 
+@ToString
+// Gera um ToString para a classe
+// ToString.EXCLUDE tira o atributo do ToString
+
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
+    @Getter
     private String nome;
     @Column(unique = true)
     private String email;
     @Column(name = "passsword")
+    @ToString.Exclude
     private String senha;
     @Column(precision = 11, updatable = false, unique = true)
     private Long cpf;
