@@ -1,7 +1,11 @@
 package br.senai.sc.demo.controller;
 
+import br.senai.sc.demo.Service.UsuarioService;
 import br.senai.sc.demo.model.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 // RestController - Determina que a classe seja gerenciada pelo Spring
@@ -19,20 +23,30 @@ import org.springframework.web.bind.annotation.*;
 // @PatchMapping(/{idpatch})
 // public String endpoitPatch(@PathVariable(name = "idpatch") int id)
 
+// @Autowired
+// depois de criar um usuarioController ele cria um usuarioService
+
 @RequestMapping("/usuario")
 // Determina qual o endpoint base para todos os outros metodos
 
-public class UsuarioController {
+public final class UsuarioController {
 
-//    @GetMapping
-//    // GET - retorna um valor que for solicitado, podendo ser um objeto ou elemento especifico
-//    public String endpointGet(){
-//        return "GET - Olá!";
-//    }
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    private UsuarioService usuarioService;
+
+    @GetMapping("/{id}")
+    // GET - retorna um valor que for solicitado, podendo ser um objeto ou elemento especifico
+    public Usuario buscarUsuario(@PathVariable Integer id){
+        return usuarioService.buscarUsuario(id);
+    }
 
     @PostMapping
     // POST - Receber informações para salvalos em algum lugar
     public String cadastroUsuario(@RequestBody Usuario usuario){
+        usuarioService.cadastroUsuario(usuario);
         return "POST - Olá " + usuario.getNome() + " Seja bem Vindo! \n" + usuario;
     }
 

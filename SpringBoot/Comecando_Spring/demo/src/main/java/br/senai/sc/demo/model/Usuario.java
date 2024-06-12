@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
 
-// @Getter
+@Getter
 // cria um Get para cada um dos atributos
 // Getter na classe cria para todos os atributos
 // em cima do atributo cria apenas para ele
@@ -33,7 +33,6 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
-    @Getter
     private String nome;
     @Column(unique = true)
     private String email;
