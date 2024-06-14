@@ -2,7 +2,6 @@ package br.senai.sc.demo.controller;
 
 import br.senai.sc.demo.Service.UsuarioService;
 import br.senai.sc.demo.model.Usuario;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,10 +36,17 @@ public final class UsuarioController {
 
     private UsuarioService usuarioService;
 
+    // Get de um usuario especifico
     @GetMapping("/{id}")
     // GET - retorna um valor que for solicitado, podendo ser um objeto ou elemento especifico
-    public Usuario buscarUsuario(@PathVariable Integer id){
+    public Usuario buscarUsuario(@PathVariable Integer id) throws Exception{
         return usuarioService.buscarUsuario(id);
+    }
+
+    // Get para todos os usuarios
+    @GetMapping
+    public List<Usuario> buscarTodosUsuarios(){
+        return usuarioService.buscarTodosUsuarios();
     }
 
     @PostMapping
@@ -50,21 +56,27 @@ public final class UsuarioController {
         return "POST - Olá " + usuario.getNome() + " Seja bem Vindo! \n" + usuario;
     }
 
-//    @PutMapping("/{id}")
-//    // PUT - Utilizado para fazer uma atualização completa das informações
-//    public String endpointPut(@PathVariable int id, @RequestBody String nome){
-//        return "PUT - Olá " + nome + " Seja bem Vindo! de ID = " + id;
-//    }
+    // Put para fazer o update de um usuário
+    @PutMapping
+    // PUT - Utilizado para fazer uma atualização completa das informações
+    public String atualizarUsuario(@RequestBody Usuario usuario){
+        usuarioService.updateUsuario(usuario);
+        return "PUT - Usuário " + usuario.getNome() + " atualizado com sucesso!!! \n" + usuario;
+    }
 
-//    @PatchMapping("/{id}")
-//    // PATCH - Atualizão parcial dos dados (normalmente 1 atributo)
-//    public String endpointPatch(@PathVariable int id, @RequestBody String nome){
-//        return "PATCH - Olá " + nome + " Seja bem Vindo! de ID = " + id;
-//    }
+    // PATCH para atualizar a senha do usuario
+    @PatchMapping("/{id}")
+    // PATCH - Atualizão parcial dos dados (normalmente 1 atributo)
+    public String atualizarSenha(@PathVariable Integer id, @RequestBody String novaSenha) throws Exception{
+        usuarioService.alterarSenha(id, novaSenha);
+        return "PATCH - Senha alterada com Sucesso!!!";
+    }
 
-//    @DeleteMapping("/{id}")
-//    // DELETE - Deletar ou desabilitar algo
-//    public String endpointDelete(@PathVariable int id){
-//        return "DELETE - ID = " + id + " Deletado.";
-//    }
+    // Delete de um usuario
+    @DeleteMapping("/{id}")
+    // DELETE - Deletar ou desabilitar algo
+    public String deletarUsuario(@PathVariable Integer id){
+        usuarioService.deletarUsuario(id);
+        return "DELETE - Usuario com o id: " + id + " Deletado!!!";
+    }
 }

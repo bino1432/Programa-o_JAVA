@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,12 +24,45 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario buscarUsuario(Integer id) {
+    public Usuario buscarUsuario(Integer id) throws Exception{
         Optional<Usuario> optional = usuarioRepository.findById(id);
         if(optional.isPresent()){
             return optional.get();
         } else {
-            throw new RuntimeException();
+            throw new Exception("Usuário não encontrado");
         }
+    }
+
+    public List<Usuario> buscarTodosUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+    private void validarUsuario(Integer id){
+        if (!usuarioRepository.existsById(id)){
+            throw new RuntimeException("Usuário não encontrado!");
+        }
+    }
+
+    public void deletarUsuario(Integer id) {
+        if (usuarioRepository.existsById(id)){
+            usuarioRepository.deleteById(id);
+            if(usuarioRepository.existsById(id)){
+                throw new RuntimeException("Não foi possível deletar o usuário de id: " + id);
+            }
+            return;
+        }
+        throw new RuntimeException("Usuário não encontrado");
+
+    }
+
+    public void updateUsuario(Usuario usuario) {
+        validarUsuario(usuario.getId());
+        usuarioRepository.save(usuario);
+    }
+
+    public void alterarSenha(Integer id, String novaSenha) throws Exception{
+        Usuario usuario = buscarUsuario(id);
+        usuario.setSenha(novaSenha);
+        usuarioRepository.save(usuario);
     }
 }

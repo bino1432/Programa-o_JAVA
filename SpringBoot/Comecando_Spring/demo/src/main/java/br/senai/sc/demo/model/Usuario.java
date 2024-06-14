@@ -1,13 +1,17 @@
 package br.senai.sc.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 // cria um Get para cada um dos atributos
 // Getter na classe cria para todos os atributos
 // em cima do atributo cria apenas para ele
+
+@Setter
 
 @Entity
 // Associa esta classe com uma tabela do banco de dados,
@@ -24,6 +28,8 @@ import lombok.ToString;
 
 // @Id - Fala qual a primary key da classe
 
+// @JsonIgnore - vai ignorar o atributo no ToString
+
 @ToString
 // Gera um ToString para a classe
 // ToString.EXCLUDE tira o atributo do ToString
@@ -38,6 +44,7 @@ public class Usuario {
     private String email;
     @Column(name = "passsword")
     @ToString.Exclude
+    @JsonIgnore
     private String senha;
     @Column(precision = 11, updatable = false, unique = true)
     private Long cpf;
