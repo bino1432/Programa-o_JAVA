@@ -20,7 +20,7 @@ public class UsuarioService {
 
     private UsuarioRepository usuarioRepository;
 
-    public Usuario cadastroUsuario(Usuario usuario){
+    public Usuario salvarUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
     }
 
@@ -57,12 +57,12 @@ public class UsuarioService {
 
     public void updateUsuario(Usuario usuario) {
         validarUsuario(usuario.getId());
-        usuarioRepository.save(usuario);
+        salvarUsuario(usuario);
     }
 
     public void alterarSenha(Integer id, String novaSenha) throws Exception{
         Usuario usuario = buscarUsuario(id);
         usuario.setSenha(novaSenha);
-        usuarioRepository.save(usuario);
+        salvarUsuario(usuario);
     }
 }

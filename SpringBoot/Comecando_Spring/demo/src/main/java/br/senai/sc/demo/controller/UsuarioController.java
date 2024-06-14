@@ -52,7 +52,7 @@ public final class UsuarioController {
     @PostMapping
     // POST - Receber informações para salvalos em algum lugar
     public String cadastroUsuario(@RequestBody Usuario usuario){
-        usuarioService.cadastroUsuario(usuario);
+        usuarioService.salvarUsuario(usuario);
         return "POST - Olá " + usuario.getNome() + " Seja bem Vindo! \n" + usuario;
     }
 
