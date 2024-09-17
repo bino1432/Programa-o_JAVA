@@ -1,0 +1,17 @@
+CENARIO 1                              CENARIO 2
+Salva estado da sessão                 não salva (JWT)
+
+Perfis:
+ADMNISTRADOR, 
+FUNCIONARIO, 
+CLIENTE
+
+Endpoints:
+POST        /api/auth/login          	sem login 👍
+POST        /api/auth/logout         	logado 👍
+POST        /api/usuarios            	adm 👍
+PUT         /api/usuarios            	funcionario 👍
+GET 1       /api/usuarios/detalhes   	cliente 👍
+GET N       /api/usuarios            	sem login 👍
+PATCH       /api/usuarios/senha      	logado (Altera a senha do usuario logado) 👍
+DELETE      /api/usuarios            	logado (Desabilita o usuario logado e faz logout)
